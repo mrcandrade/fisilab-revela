@@ -5,7 +5,7 @@ use std::process::{Command, Stdio};
 
 use serde_json::{Value, json};
 
-const BIN: &str = env!("CARGO_BIN_EXE_lightcraft-cli");
+const BIN: &str = env!("CARGO_BIN_EXE_fisirevela-cli");
 
 #[test]
 fn contact_sheet_exports_pdf_and_protects_originals() {
@@ -48,7 +48,7 @@ fn contact_sheet_exports_pdf_and_protects_originals() {
 }
 
 fn tmp(name: &str) -> std::path::PathBuf {
-    let d = std::env::temp_dir().join(format!("lightcraft-cli-test-{}", std::process::id()));
+    let d = std::env::temp_dir().join(format!("fisirevela-cli-test-{}", std::process::id()));
     std::fs::create_dir_all(&d).unwrap();
     d.join(name)
 }
@@ -455,7 +455,7 @@ fn a_library_open_in_another_process_is_refused() {
     }
     let (ok, _, stderr) = run_cli(&["--library", lib_s, "library.info"], None);
     assert!(!ok);
-    assert!(stderr.contains("already open in lightcraft-cli") && stderr.contains(&format!("process {}", holder.id())), "{stderr}");
+    assert!(stderr.contains("already open in fisirevela-cli") && stderr.contains(&format!("process {}", holder.id())), "{stderr}");
     assert!(stderr.contains("mcp --connect"), "{stderr}");
 
     drop(holder.stdin.take()); // EOF: the server exits and lets go of the library
@@ -557,7 +557,7 @@ fn snapshot_leaves_desktop_gpu_preferences_untouched() {
     session.open_library(&library, true).unwrap();
     drop(session);
     let config = dir.join("config");
-    let app_config = config.join("lightcraft");
+    let app_config = config.join("fisirevela");
     std::fs::create_dir_all(&app_config).unwrap();
     let ui_path = app_config.join("ui.json");
     let mut ui = lightcraft_ui_egui::UiState::default();

@@ -39,7 +39,7 @@ pub const MAX_FILE_BYTES: u64 = 16 * 1024 * 1024;
 /// Records kept in memory until the log file is attached.
 pub const MAX_PENDING: usize = 512;
 /// The built-in filter when neither `LIGHTCRAFT_LOG` nor `RUST_LOG` says otherwise.
-pub const DEFAULT_FILTER: &str = "warn,lightcraft*=info";
+pub const DEFAULT_FILTER: &str = "warn,lightcraft*=info,fisirevela*=info";
 
 /// The filter directives for this run from `LIGHTCRAFT_LOG` and `RUST_LOG` (blank = unset).
 ///
@@ -50,8 +50,8 @@ pub fn filter_spec(lightcraft_log: Option<&str>, rust_log: Option<&str>) -> Stri
     let set = |v: Option<&str>| v.map(str::trim).filter(|v| !v.is_empty()).map(str::to_owned);
     if let Some(level) = set(lightcraft_log) {
         return match level.as_str() {
-            "debug" => "warn,lightcraft*=debug".to_owned(),
-            "info" => "warn,lightcraft*=info".to_owned(),
+            "debug" => "warn,lightcraft*=debug,fisirevela*=debug".to_owned(),
+            "info" => "warn,lightcraft*=info,fisirevela*=info".to_owned(),
             _ => "warn".to_owned(),
         };
     }

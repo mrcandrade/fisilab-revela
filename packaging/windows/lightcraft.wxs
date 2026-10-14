@@ -13,34 +13,34 @@
 -->
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <Package
-      Name="LightCraft"
-      Manufacturer="Learning Machines LLC"
+      Name="FisiRevela"
+      Manufacturer="FisiLab — LARFIC/UFRGS"
       Version="$(var.Version)"
-      UpgradeCode="229BB552-5EFD-479A-BA86-8CB6D926390C"
+      UpgradeCode="C10F6BBF-AA1B-4A06-B7F5-0DF75EADD41A"
       Scope="perMachine"
       Compressed="yes"
       Language="1033">
-    <SummaryInformation Description="LightCraft photo library and raw developer" Manufacturer="Learning Machines LLC" />
+    <SummaryInformation Description="FisiRevela — Revelação e catálogo de fotos (Suíte FisiLab)" Manufacturer="FisiLab — LARFIC/UFRGS" />
     <!-- Same-version upgrades let successive pre-releases of one X.Y.Z replace each other
          (MSI versions are numeric, so 1.2.3-rc.1 and 1.2.3-rc.2 are both 1.2.3). -->
     <MajorUpgrade AllowSameVersionUpgrades="yes"
-        DowngradeErrorMessage="A newer version of LightCraft is already installed." />
+        DowngradeErrorMessage="A newer version of FisiRevela is already installed." />
     <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
 
     <Icon Id="LightcraftIcon.ico" SourceFile="$(var.IconPath)" />
     <Property Id="ARPPRODUCTICON" Value="LightcraftIcon.ico" />
-    <Property Id="ARPURLINFOABOUT" Value="https://getartcraft.com/apps/lightcraft" />
-    <Property Id="ARPURLUPDATEINFO" Value="https://getartcraft.com/apps/lightcraft" />
-    <Property Id="ARPHELPLINK" Value="https://discord.gg/artcraft" />
+    <Property Id="ARPURLINFOABOUT" Value="https://github.com/mrcandrade/fisirevela" />
+    <Property Id="ARPURLUPDATEINFO" Value="https://github.com/mrcandrade/fisirevela" />
+    <Property Id="ARPHELPLINK" Value="https://github.com/mrcandrade/fisirevela/issues" />
 
     <StandardDirectory Id="ProgramFiles6432Folder">
-      <Directory Id="INSTALLFOLDER" Name="LightCraft" />
+      <Directory Id="INSTALLFOLDER" Name="FisiRevela" />
     </StandardDirectory>
     <!-- The folder of the installed version (written by LightcraftApp), so an upgrade installs
          where the user chose instead of moving back to Program Files (issue #399). Searched into
          its own property: AppSearch would otherwise overwrite INSTALLFOLDER=... given to msiexec. -->
     <Property Id="PREVIOUSINSTALLFOLDER">
-      <RegistrySearch Id="PreviousInstallFolder" Root="HKLM" Key="Software\LightCraft" Name="InstallFolder" Type="raw" />
+      <RegistrySearch Id="PreviousInstallFolder" Root="HKLM" Key="Software\FisiLab\FisiRevela" Name="InstallFolder" Type="raw" />
     </Property>
     <SetProperty Id="INSTALLFOLDER" Value="[PREVIOUSINSTALLFOLDER]" After="AppSearch" Sequence="both"
         Condition="PREVIOUSINSTALLFOLDER AND NOT INSTALLFOLDER" />
@@ -49,16 +49,16 @@
          the newer InstallFolder value and an explicit INSTALLFOLDER always take precedence. -->
     <Property Id="LEGACYINSTALLFOLDER">
       <RegistrySearch Id="LegacyInstallFolder" Root="HKLM"
-          Key="Software\Microsoft\Windows\CurrentVersion\App Paths\lightcraft.exe" Type="file" />
+          Key="Software\Microsoft\Windows\CurrentVersion\App Paths\fisirevela.exe" Type="file" />
     </Property>
     <!-- That directory search doesn't check the executable exists, and when its unquoted path is
          gone it falls back to the text before the first space: a deleted
-         "C:\Program Files\LightCraft\lightcraft.exe" yields "C:\". Only use the folder when this
-         search, which does require lightcraft.exe, finds it too. -->
+         "C:\Program Files\LightCraft\fisirevela.exe" yields "C:\". Only use the folder when this
+         search, which does require fisirevela.exe, finds it too. -->
     <Property Id="LEGACYINSTALLEXE">
       <RegistrySearch Id="LegacyInstallExe" Root="HKLM"
-          Key="Software\Microsoft\Windows\CurrentVersion\App Paths\lightcraft.exe" Type="file">
-        <FileSearch Id="LegacyInstallExeFile" Name="lightcraft.exe" />
+          Key="Software\Microsoft\Windows\CurrentVersion\App Paths\fisirevela.exe" Type="file">
+        <FileSearch Id="LegacyInstallExeFile" Name="fisirevela.exe" />
       </RegistrySearch>
     </Property>
     <SetProperty Id="INSTALLFOLDER" Action="SetInstallFolderFromAppPaths" Value="[LEGACYINSTALLFOLDER]"
@@ -66,7 +66,7 @@
         Condition="LEGACYINSTALLFOLDER AND LEGACYINSTALLEXE AND NOT PREVIOUSINSTALLFOLDER AND NOT INSTALLFOLDER" />
     <StandardDirectory Id="ProgramMenuFolder" />
 
-    <Feature Id="Main" Title="LightCraft" Level="1">
+    <Feature Id="Main" Title="FisiRevela" Level="1">
       <ComponentGroupRef Id="LightcraftFiles" />
     </Feature>
 
@@ -97,8 +97,8 @@
     <WixVariable Id="WixUIBannerBmp" Value="$(var.UiBannerBmp)" />
 
     <Property Id="WIXUI_EXITDIALOGOPTIONALTEXT"
-        Value="LightCraft has been installed. You can start it at any time from the Start menu." />
-    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch LightCraft" />
+        Value="FisiRevela has been installed. You can start it at any time from the Start menu." />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch FisiRevela" />
     <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" />
 
     <!-- "Launch LightCraft" on Finish. WixUnelevatedShellExec (Util extension) asks the desktop
@@ -192,19 +192,19 @@
 
   <Fragment>
     <ComponentGroup Id="LightcraftFiles" Directory="INSTALLFOLDER">
-      <Component Id="LightcraftApp" Guid="8A1D3A39-F7C1-47B1-97AE-40C80BF82F4A">
-        <File Id="LightcraftExe" Source="$(var.BinDir)\lightcraft.exe" KeyPath="yes">
-          <Shortcut Id="StartMenuShortcut" Directory="ProgramMenuFolder" Name="LightCraft"
-              Description="LightCraft photo library and raw developer" WorkingDirectory="INSTALLFOLDER" Advertise="yes"
+      <Component Id="LightcraftApp" Guid="DA08BEA5-E509-4586-9FEF-33D968889781">
+        <File Id="LightcraftExe" Source="$(var.BinDir)\fisirevela.exe" KeyPath="yes">
+          <Shortcut Id="StartMenuShortcut" Directory="ProgramMenuFolder" Name="FisiRevela"
+              Description="FisiRevela — Revelação e catálogo de fotos (Suíte FisiLab)" WorkingDirectory="INSTALLFOLDER" Advertise="yes"
               Icon="LightcraftIcon.ico" IconIndex="0" />
         </File>
 
-        <RegistryValue Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\App Paths\lightcraft.exe" Value="[#LightcraftExe]" Type="string" />
-        <RegistryValue Root="HKLM" Key="Software\LightCraft" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\App Paths\fisirevela.exe" Value="[#LightcraftExe]" Type="string" />
+        <RegistryValue Root="HKLM" Key="Software\FisiLab\FisiRevela" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" />
       </Component>
 
       <Component Id="LightcraftCli">
-        <File Id="LightcraftCliExe" Source="$(var.BinDir)\lightcraft-cli.exe" KeyPath="yes" />
+        <File Id="LightcraftCliExe" Source="$(var.BinDir)\fisirevela-cli.exe" KeyPath="yes" />
       </Component>
     </ComponentGroup>
   </Fragment>

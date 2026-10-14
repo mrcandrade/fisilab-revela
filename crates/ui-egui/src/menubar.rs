@@ -234,12 +234,10 @@ const LAYOUT: &[(&str, &[&str])] = &[
     (
         "Help",
         &[
-            "app.discord",
+            "app.suite",
+            "app.manifesto",
+            "app.upstream",
             "app.feedback",
-            "---",
-            "app.website",
-            "app.github",
-            "app.artcraft",
             "---",
             "app.whatsNew",
             "app.shortcuts",
@@ -247,6 +245,7 @@ const LAYOUT: &[(&str, &[&str])] = &[
             "app.openLogFolder",
             "---",
             "app.about",
+            "app.fisilab",
         ],
     ),
 ];
@@ -498,7 +497,7 @@ fn expanded(app: &LightcraftApp, name: &str) -> Option<Vec<MenuNode>> {
             .collect();
             v.push(item("view.appearance", Value::Null, "Next Appearance Mode", None, true, None));
             // the saved theme of each family is checked
-            for group in [[ThemeKind::Charcoal, ThemeKind::Midnight], [ThemeKind::Silver, ThemeKind::Paper]] {
+            for group in [[ThemeKind::UfrgsNoite, ThemeKind::Charcoal, ThemeKind::Midnight], [ThemeKind::UfrgsDia, ThemeKind::Silver, ThemeKind::Paper]] {
                 v.push(MenuNode::Separator);
                 for k in group {
                     let on = if k.is_dark() { s.dark_theme.kind() == k } else { s.light_theme.kind() == k };

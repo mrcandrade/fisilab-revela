@@ -261,7 +261,7 @@ pub fn show(app: &mut LightcraftApp, ctx: &egui::Context) {
         // (nothing to download from in this build: the dialog explains the manual install)
         Dialog::SamModel { .. } if sam_by_hand(&app.session.segmenter) => "Install the SAM 3 Model",
         Dialog::SamModel { .. } => "Download the SAM 3 Model?",
-        Dialog::About => "About LightCraft",
+        Dialog::About => "About FisiRevela",
         Dialog::Shortcuts => "Keyboard Shortcuts",
     }
     .to_string();
@@ -956,7 +956,7 @@ pub fn show(app: &mut LightcraftApp, ctx: &egui::Context) {
                                 crate::widgets::named(ui.add(egui::TextEdit::singleline(&mut opts.photos_album).hint_text(crate::i18n::tr("none")).desired_width(f32::INFINITY)), crate::i18n::tr("Album"))
                             });
                             ui.label(
-                                egui::RichText::new(crate::i18n::tr("The first time, macOS asks whether LightCraft may control Photos."))
+                                egui::RichText::new(crate::i18n::tr("The first time, macOS asks whether FisiRevela may control Photos."))
                                     .size(11.0)
                                     .color(t.text_dim),
                             );
@@ -1120,7 +1120,7 @@ pub fn show(app: &mut LightcraftApp, ctx: &egui::Context) {
                 }
                 d @ Dialog::SynchronizeFolder { .. } => crate::sync::body(app, ui, d),
                 Dialog::LightroomCatalog { folder, catalog } => {
-                    ui.label(crate::i18n::tr("This is a Lightroom catalog, not a LightCraft library. Import it into a LightCraft library instead?"));
+                    ui.label(crate::i18n::tr("This is a Lightroom catalog, not a FisiRevela library. Import it into a FisiRevela library instead?"));
                     ui.label(egui::RichText::new(catalog.as_deref().unwrap_or(folder.as_str())).color(t.text_dim));
                     ui.label(
                         egui::RichText::new(crate::i18n::tr(
@@ -1162,26 +1162,35 @@ pub fn show(app: &mut LightcraftApp, ctx: &egui::Context) {
                         1 => crate::credits::contributors_ui(app, ui),
                         2 => crate::credits::models_ui(ui),
                         _ => {
-                            ui.label(egui::RichText::new("LightCraft").font(t.semibold(20.0)).color(t.text));
+                            ui.label(egui::RichText::new("FisiRevela").font(t.semibold(20.0)).color(t.text));
+                            ui.label(egui::RichText::new(crate::APP_INFO.tagline).color(t.text_label));
                             ui.label(crate::i18n::tr_format!("Version {} — a clean-room, pure-Rust photo library and raw developer.", env!("CARGO_PKG_VERSION")));
+                            ui.label(
+                                egui::RichText::new(
+                                    "Suíte FisiLab — FisiLab · LARFIC/UFRGS, em parceria com o CTA — Centro de Tecnologia Acadêmica. \
+                                     Baseado no LightCraft, da ArtCraft Team e contribuidores (aba Contributors).",
+                                )
+                                .color(t.text_dim),
+                            );
                             ui.label(crate::i18n::tr_format!(
                                 "MIT OR Apache-2.0. Fonts: {} (OFL). Icons: original.",
                                 crate::theme::font_credits(app.chinese_font.is_some())
                             ));
                             ui.add_space(10.0);
-                            let discord = egui::Button::new(egui::RichText::new(crate::i18n::tr("Join the ArtCraft Discord")).font(t.semibold(15.0)).color(egui::Color32::WHITE))
+                            let suite = egui::Button::new(egui::RichText::new(fisilab_brand::ABOUT_MENU_LABEL).font(t.semibold(15.0)).color(egui::Color32::WHITE))
                                 .fill(t.accent)
                                 .min_size(egui::vec2(260.0, 34.0));
-                            let r = ui.add(discord).on_hover_text(crate::links::DISCORD);
-                            crate::widgets::register(ui.ctx(), "button:aboutDiscord", r.rect);
+                            let r = ui.add(suite);
+                            crate::widgets::register(ui.ctx(), "button:aboutFisiLab", r.rect);
                             if r.clicked() {
-                                let _ = crate::links::open(app, crate::links::DISCORD);
+                                fisilab_brand::about::open(ui.ctx());
                             }
                             ui.add_space(6.0);
                             for (label, url) in [
-                                ("LightCraft website", crate::links::APP_PAGE),
-                                ("Source code on GitHub", crate::links::GITHUB),
-                                ("ArtCraft — more creative apps", crate::links::WEBSITE),
+                                ("Site da Suíte FisiLab", crate::links::SUITE),
+                                ("Manifesto pelas tecnologias livres", crate::links::MANIFESTO),
+                                ("Projeto original (LightCraft)", crate::links::UPSTREAM),
+                                ("Reportar um problema", crate::links::FEEDBACK),
                             ] {
                                 let r = ui.link(crate::i18n::tr(label)).on_hover_text(url);
                                 if r.clicked() {
@@ -1466,7 +1475,7 @@ fn sam_model_body(app: &mut LightcraftApp, ui: &mut egui::Ui, error: Option<&str
     }
     let gb = |b: u64| b as f64 / 1e9;
     ui.label(crate::i18n::tr(
-        "Object and Describe masks use SAM 3, Meta's segmentation model. It isn't part of LightCraft, and everything else works without it.",
+        "Object and Describe masks use SAM 3, Meta's segmentation model. It isn't part of FisiRevela, and everything else works without it.",
     ));
     let dir = seg.dir.as_ref().map(|d| d.display().to_string()).unwrap_or_default();
     ui.label(format!("{} {:.1} GB, {} {dir}", crate::i18n::tr("A one-time download of about"), gb(MODEL_BYTES), crate::i18n::tr("saved in")));
@@ -1474,7 +1483,7 @@ fn sam_model_body(app: &mut LightcraftApp, ui: &mut egui::Ui, error: Option<&str
         egui::RichText::new(format!(
             "{} {LICENSE_NAME} — {}",
             crate::i18n::tr("Licence:"),
-            crate::i18n::tr("Meta's terms, not LightCraft's. Downloading it means accepting them.")
+            crate::i18n::tr("Meta's terms, not FisiRevela's. Downloading it means accepting them.")
         ))
         .color(t.text_label),
     );

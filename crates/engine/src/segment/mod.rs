@@ -268,7 +268,7 @@ impl Segmenter {
             format!("{NOT_INSTALLED} yet: it is downloading ({pct} %).")
         } else {
             format!(
-                "{NOT_INSTALLED}. Download it (about {:.1} GB, {LICENSE_NAME}) when LightCraft offers it, with `segment.model.download {{\"acknowledged\": true}}`, or put model.safetensors, vocab.json and merges.txt in {}.",
+                "{NOT_INSTALLED}. Download it (about {:.1} GB, {LICENSE_NAME}) when FisiRevela offers it, with `segment.model.download {{\"acknowledged\": true}}`, or put model.safetensors, vocab.json and merges.txt in {}.",
                 MODEL_BYTES as f64 / 1e9,
                 dir.display()
             )

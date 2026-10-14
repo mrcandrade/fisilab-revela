@@ -40,6 +40,18 @@ pub mod theme;
 pub mod titlebar;
 pub mod widgets;
 
+/// FisiRevela as a member of the Suíte FisiLab (UFRGS): what the shared About window and the opening
+/// animation say about this app.
+pub const APP_INFO: fisilab_brand::AppInfo = fisilab_brand::AppInfo {
+    name: "FisiRevela",
+    tagline: "Revelação e catálogo de fotos",
+    equivalent: "Adobe Lightroom",
+    version: env!("CARGO_PKG_VERSION"),
+    upstream_name: "LightCraft",
+    upstream_url: "https://github.com/storytold/lightcraft",
+    upstream_copyright: "© 2026 ArtCraft Team e contribuidores do LightCraft",
+};
+
 #[cfg(test)]
 mod tests_activity;
 #[cfg(test)]
@@ -704,7 +716,7 @@ impl LightcraftApp {
                 let t = ctx.input(|i| i.time);
                 self.ui.toast = Some((
                     crate::i18n::tr_format!(
-                        "{n} change{} saved in memory but not written to disk: {e} — LightCraft will retry",
+                        "{n} change{} saved in memory but not written to disk: {e} — FisiRevela will retry",
                         if n == 1 { "" } else { "s" },
                         n = n,
                         e = e
@@ -1298,11 +1310,11 @@ impl LightcraftApp {
         ctx.send_viewport_cmd(egui::ViewportCommand::Title(self.window_title()));
     }
 
-    /// "LightCraft — <library name>" (just "LightCraft" for a library that isn't saved).
+    /// "FisiRevela — <library name>" (just "FisiRevela" for a library that isn't saved).
     pub fn window_title(&self) -> String {
         match panels::settings::open_library_name(self) {
-            Some(name) => format!("LightCraft — {name}"),
-            None => "LightCraft".to_string(),
+            Some(name) => format!("FisiRevela — {name}"),
+            None => "FisiRevela".to_string(),
         }
     }
 
@@ -1332,6 +1344,7 @@ impl LightcraftApp {
             panels::dialogs::show(self, &ctx);
             panels::library_problem::show(self, &ctx);
             panels::toast(self, &ctx);
+            fisilab_brand::frame(&ctx, &APP_INFO);
             self.widgets = widgets::take_registry(&ctx);
             self.end_frame(&ctx, t0);
             return;
@@ -1356,6 +1369,8 @@ impl LightcraftApp {
         panels::left::section_drag_feedback(self, &ctx);
         panels::keyword_list::drag_feedback(self, &ctx);
         panels::toast(self, &ctx);
+        // Suíte FisiLab: its About window and the opening animation, over everything else
+        fisilab_brand::frame(&ctx, &APP_INFO);
         self.widgets = widgets::take_registry(&ctx);
         self.text_focus = ctx.egui_wants_keyboard_input();
         self.end_frame(&ctx, t0);

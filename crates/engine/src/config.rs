@@ -22,9 +22,9 @@ use std::sync::OnceLock;
 use crate::Session;
 
 /// Files beside the executable that switch on portable mode (either one; contents are ignored).
-pub const PORTABLE_MARKERS: [&str; 2] = ["portable.txt", "LightCraft.portable"];
+pub const PORTABLE_MARKERS: [&str; 2] = ["portable.txt", "FisiRevela.portable"];
 /// The data folder created beside the executable in portable mode.
-pub const PORTABLE_DATA_DIR: &str = "LightCraftData";
+pub const PORTABLE_DATA_DIR: &str = "FisiRevelaData";
 
 #[derive(Clone, Copy)]
 enum Platform {
@@ -56,10 +56,10 @@ fn config_dir_with(platform: Platform, env: impl Fn(&str) -> Option<OsString>, p
         return Some(dir);
     }
     match platform {
-        Platform::Mac => env("HOME").map(|h| PathBuf::from(h).join("Library/Application Support/LightCraft")),
-        Platform::Windows => env("APPDATA").map(|a| PathBuf::from(a).join("LightCraft")),
+        Platform::Mac => env("HOME").map(|h| PathBuf::from(h).join("Library/Application Support/FisiRevela")),
+        Platform::Windows => env("APPDATA").map(|a| PathBuf::from(a).join("FisiRevela")),
         Platform::Other => {
-            env("XDG_CONFIG_HOME").map(PathBuf::from).or_else(|| env("HOME").map(|h| PathBuf::from(h).join(".config"))).map(|c| c.join("lightcraft"))
+            env("XDG_CONFIG_HOME").map(PathBuf::from).or_else(|| env("HOME").map(|h| PathBuf::from(h).join(".config"))).map(|c| c.join("fisirevela"))
         }
     }
 }
@@ -244,10 +244,10 @@ mod config_tests {
     #[test]
     fn config_unset_override_keeps_platform_defaults() {
         let vars = [("HOME", "/user"), ("APPDATA", "/roaming"), ("XDG_CONFIG_HOME", "/xdg")];
-        assert_eq!(resolve(Platform::Mac, &vars), Some(PathBuf::from("/user/Library/Application Support/LightCraft")));
-        assert_eq!(resolve(Platform::Windows, &vars), Some(PathBuf::from("/roaming/LightCraft")));
-        assert_eq!(resolve(Platform::Other, &vars), Some(PathBuf::from("/xdg/lightcraft")));
-        assert_eq!(resolve(Platform::Other, &[("HOME", "/user")]), Some(PathBuf::from("/user/.config/lightcraft")));
+        assert_eq!(resolve(Platform::Mac, &vars), Some(PathBuf::from("/user/Library/Application Support/FisiRevela")));
+        assert_eq!(resolve(Platform::Windows, &vars), Some(PathBuf::from("/roaming/FisiRevela")));
+        assert_eq!(resolve(Platform::Other, &vars), Some(PathBuf::from("/xdg/fisirevela")));
+        assert_eq!(resolve(Platform::Other, &[("HOME", "/user")]), Some(PathBuf::from("/user/.config/fisirevela")));
         for platform in [Platform::Mac, Platform::Windows, Platform::Other] {
             assert_eq!(resolve(platform, &[]), None);
         }

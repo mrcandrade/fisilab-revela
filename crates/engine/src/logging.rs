@@ -24,7 +24,7 @@ impl StderrLog {
 
 impl log::Log for StderrLog {
     fn enabled(&self, m: &Metadata) -> bool {
-        m.level() <= self.level && (m.level() <= Level::Warn || m.target().starts_with("lightcraft"))
+        m.level() <= self.level && (m.level() <= Level::Warn || m.target().starts_with("lightcraft") || m.target().starts_with("fisirevela"))
     }
     fn log(&self, r: &Record) {
         if self.enabled(r.metadata()) {
@@ -57,7 +57,7 @@ pub fn level_from(lightcraft_log: Option<&str>, rust_log: Option<&str>) -> Level
     for directive in rust_log.split(',') {
         match directive.split_once('=') {
             None => bare = parse_level(directive).or(bare),
-            Some((target, level)) if target.trim().starts_with("lightcraft") => {
+            Some((target, level)) if target.trim().starts_with("lightcraft") || target.trim().starts_with("fisirevela") => {
                 if let Some(l) = parse_level(level) {
                     ours = Some(ours.map_or(l, |o| o.max(l)));
                 }
