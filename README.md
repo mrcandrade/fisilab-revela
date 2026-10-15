@@ -44,8 +44,7 @@ livres para ensino, pesquisa e criação na universidade. Ele é uma versão do
 
 ### Windows
 
-Baixe o instalador `FisiLab-Revela-Setup-<versão>.exe` no portal de downloads da Suíte FisiLab ou na página de
-[Releases do GitHub](https://github.com/mrcandrade/fisilab-revela/releases) e execute-o. Depois, abra o **Revela** pelo
+Baixe o instalador `FisiLab-Revela-Setup-<versão>.exe` na [página de downloads da Suíte FisiLab](https://github.com/mrcandrade/larfic/releases/latest) e execute-o. Depois, abra o **Revela** pelo
 menu Iniciar. Na primeira execução, a interface já abre em português do Brasil, com a paleta original do LightCraft (opções **Noite** e **Dia**,
 além de Midnight e Paper, em Configurações ▸ Interface).
 
@@ -83,10 +82,15 @@ Conhecimento produzido em uma universidade pública deve circular livremente, e 
 ensinar, pesquisar e criar também devem ser livres. Leia o
 [Manifesto pelas tecnologias livres](https://github.com/mrcandrade/larfic/blob/main/suite-fisilab/MANIFESTO.md).
 
+## Privacidade
+
+O Revela não coleta dados de uso nem envia o conteúdo dos seus arquivos para lugar nenhum: não há
+telemetria, estatísticas nem verificação automática de atualizações. Veja o que ele guarda no seu
+computador e quando usa a internet no [aviso de privacidade da Suíte FisiLab](https://github.com/mrcandrade/larfic/blob/main/suite-fisilab/PRIVACIDADE.md).
+
 ---
 
 <p align="center">
-  <a href="https://www.ufrgs.br"><img src="assets/fisilab/ufrgs-logo.gif" alt="UFRGS" height="48"></a>
   &nbsp;&nbsp;
   <a href="https://cta.if.ufrgs.br"><img src="assets/fisilab/cta-logo.webp" alt="CTA — Centro de Tecnologia Acadêmica" height="48"></a>
   &nbsp;&nbsp;
