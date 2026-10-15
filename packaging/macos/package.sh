@@ -142,27 +142,39 @@ mkdir -p "$STAGE/.background"
 cp "$HERE/dmg/background.tiff" "$STAGE/.background/background.tiff"
 cp "$HERE/dmg/dmg-layout.DS_Store" "$STAGE/.DS_Store"
 rm -f "$DMG"
-# hdiutil makehybrid -hfs injects FinderInfo metadata into the signed app.
-# create -srcfolder preserves the signed app and the existing .DS_Store layout.
-# hdiutil may transiently return "Resource busy" on CI; retry boundedly.
+# `hdiutil create -srcfolder` writes the files as they are. `makehybrid -hfs` gave every file a
+# com.apple.FinderInfo, which `codesign --verify --strict` rejects as "Finder information, or
+# similar detritus" on the app in the image and on a copy installed from it (problema conhecido
+# dos projetos originais). `create` attaches a device
+# while it copies, which fails now and then on CI runners ("Resource busy"), so it gets a few
+# tries. The volume name has no version: .DS_Store finds the background through an alias that
+# includes it.
+# Usage: hdiutil_retry <what> <hdiutil args…>; tries five times with growing pauses.
 hdiutil_retry() {
-  local attempt
+  local what="$1" attempt
+  shift
   for attempt in 1 2 3 4 5; do
     if hdiutil "$@"; then
       return 0
     fi
-    if [ "$attempt" = 5 ]; then
-      echo "error: hdiutil $1 failed after five attempts" >&2
-      return 1
-    fi
-    warn "hdiutil $1 attempt $attempt failed; retrying"
+    [ "$attempt" = 5 ] && { echo "hdiutil $what failed 5 times" >&2; return 1; }
+    echo "hdiutil $what failed (attempt $attempt of 5); retrying in $((attempt * 10))s" >&2
     sleep $((attempt * 10))
   done
 }
-hdiutil_retry create -srcfolder "$STAGE" -volname "Revela" -fs HFS+ -format UDZO \
-  -imagekey zlib-level=9 -ov "$DMG"
+hdiutil_retry create create -srcfolder "$STAGE" -volname "Revela" -fs HFS+ -format UDZO -imagekey zlib-level=9 -ov "$DMG"
 sign "$DMG"
 codesign --verify --strict --verbose=2 "$DMG"
+# The app inside the image must still pass --strict, so a makehybrid-style regression can't ship.
+MOUNT="$WORK/dmg-check"
+rm -rf "$MOUNT"
+mkdir -p "$MOUNT"
+hdiutil_retry attach attach -nobrowse -readonly -mountpoint "$MOUNT" "$DMG" >/dev/null
+if ! codesign --verify --strict --deep --verbose=2 "$MOUNT/Revela.app"; then
+  hdiutil_retry detach detach "$MOUNT" >/dev/null || true
+  exit 1
+fi
+hdiutil_retry detach detach "$MOUNT" >/dev/null
 
 # Verification must use the FINISHED image (and a normal ditto-installed copy).
 # Signatures of the DMG container alone do not validate the bundle in the image.
