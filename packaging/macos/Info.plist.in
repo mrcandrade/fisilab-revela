@@ -5,15 +5,15 @@
 <plist version="1.0">
 <dict>
   <key>CFBundleDevelopmentRegion</key>
-  <string>en</string>
+  <string>pt-BR</string>
   <key>CFBundleDisplayName</key>
-  <string>LightCraft</string>
+  <string>Revela</string>
   <key>CFBundleName</key>
-  <string>LightCraft</string>
+  <string>Revela</string>
   <key>CFBundleExecutable</key>
-  <string>LightCraft</string>
+  <string>Revela</string>
   <key>CFBundleIdentifier</key>
-  <string>ai.storyteller.lightcraft</string>
+  <string>br.ufrgs.fisilab.revela</string>
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
   <key>CFBundlePackageType</key>
@@ -24,12 +24,12 @@
   <string>@SHORT_VERSION@</string>
   <key>CFBundleVersion</key>
   <string>@SHORT_VERSION@</string>
-  <key>LightCraftVersion</key>
+  <key>FisiLabVersion</key>
   <string>@VERSION@</string>
-  <key>LightCraftBuildCommit</key>
+  <key>FisiLabBuildCommit</key>
   <string>@BUILD_SHA@</string>
   <key>CFBundleIconFile</key>
-  <string>LightCraft</string>
+  <string>Revela</string>
   <key>LSApplicationCategoryType</key>
   <string>public.app-category.graphics-design</string>
   <!-- Must match MACOSX_DEPLOYMENT_TARGET in package.sh. Big Sur is the first release on
@@ -42,28 +42,28 @@
   <true/>
   <key>NSRequiresAquaSystemAppearance</key>
   <false/>
-  <!-- Shown by macOS when LightCraft first asks to control Photos (Export > Add to Apple Photos;
+  <!-- Shown by macOS when Revela first asks to control Photos (Export > Add to Apple Photos;
        needs the apple-events entitlement in entitlements.plist). -->
   <key>NSAppleEventsUsageDescription</key>
-  <string>LightCraft asks Photos to import the photos you export when you choose Add to Apple Photos in the Export dialog.</string>
+  <string>Revela asks Photos to import the photos you export when you choose Add to Apple Photos in the Export dialog.</string>
   <key>NSHumanReadableCopyright</key>
-  <string>Copyright © the LightCraft authors. MIT OR Apache-2.0.</string>
+  <string>FisiLab (LARFIC/UFRGS) e CTA. Baseado no LightCraft, do ArtCraft Team e contribuidores. MIT OR Apache-2.0.</string>
 
-  <!-- Lightcraft's own format. -->
+  <!-- Formato próprio do Revela. -->
   <key>UTExportedTypeDeclarations</key>
   <array>
     <dict>
       <key>UTTypeIdentifier</key>
-      <string>ai.storyteller.lightcraft.document</string>
+      <string>br.ufrgs.fisilab.revela.document</string>
       <key>UTTypeDescription</key>
-      <string>LightCraft Document</string>
+      <string>Revela Document</string>
       <key>UTTypeConformsTo</key>
       <array>
         <string>public.data</string>
         <string>public.image</string>
       </array>
       <key>UTTypeIconFile</key>
-      <string>LightCraft</string>
+      <string>Revela</string>
       <key>UTTypeTagSpecification</key>
       <dict>
         <key>public.filename-extension</key>
@@ -94,7 +94,7 @@
     </dict>
     <dict>
       <key>UTTypeIdentifier</key>
-      <string>ai.storyteller.lightcraft.qoi</string>
+      <string>br.ufrgs.fisilab.revela.qoi</string>
       <key>UTTypeDescription</key>
       <string>QOI Image</string>
       <key>UTTypeConformsTo</key>

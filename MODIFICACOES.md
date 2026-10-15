@@ -106,3 +106,4 @@ e por quê. Modificações © 2026 FisiLab — LARFIC/UFRGS, sob os mesmos termo
   do cabeçalho do Revela).
 - O recurso "Edit in PhotoCraft" continua procurando o PhotoCraft.
 - O empacotamento Linux (AppImage e .deb) usa os novos nomes, ícones e identificadores (`br.ufrgs.fisilab.revela`).
+- O empacotamento macOS (DMG universal) usa os novos nomes, ícone e identificadores (`br.ufrgs.fisilab.revela`).
