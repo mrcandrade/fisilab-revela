@@ -1,4 +1,4 @@
-//! Project links (Help menu, About dialog). FisiRevela is the Suíte FisiLab (UFRGS) version of
+//! Project links (Help menu, About dialog). Revela is the Suíte FisiLab (UFRGS) version of
 //! LightCraft: the links go to the suite, its manifesto, the original project and this fork's
 //! issue tracker. Nothing here is contacted unless the user clicks it.
 
@@ -11,16 +11,16 @@ pub const SUITE: &str = fisilab_brand::SUITE_URL;
 /// The manifesto for free technologies.
 pub const MANIFESTO: &str = fisilab_brand::MANIFESTO_URL;
 /// This app's id in the suite's repositories.
-pub const APP: &str = "fisirevela";
+pub const APP: &str = "fisilab-revela";
 /// This fork's source repository.
-pub const GITHUB: &str = "https://github.com/mrcandrade/fisirevela";
+pub const GITHUB: &str = "https://github.com/mrcandrade/fisilab-revela";
 
 /// The user documentation (docs/ in the original repository).
 pub const HELP: &str = "https://github.com/storytold/lightcraft/tree/main/docs";
 
 /// (UI command id, menu label, URL) for each link, in Help-menu order.
 pub const LINKS: &[(&str, &str, &str)] = &[
-    ("app.help", "FisiRevela Help", HELP),
+    ("app.help", "Revela Help", HELP),
     ("app.suite", "Site da Suíte FisiLab", SUITE),
     ("app.manifesto", "Manifesto pelas tecnologias livres", MANIFESTO),
     ("app.upstream", "Projeto original (LightCraft)", UPSTREAM),
@@ -28,7 +28,7 @@ pub const LINKS: &[(&str, &str, &str)] = &[
 ];
 
 /// Where problem reports go (this fork's issues).
-pub const FEEDBACK: &str = "https://github.com/mrcandrade/fisirevela/issues";
+pub const FEEDBACK: &str = "https://github.com/mrcandrade/fisilab-revela/issues";
 
 /// The URL behind a link command id.
 pub fn url_of(cmd: &str) -> Option<&'static str> {

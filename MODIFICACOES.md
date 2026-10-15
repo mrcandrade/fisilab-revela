@@ -1,14 +1,14 @@
-# Modificações do FisiRevela em relação ao LightCraft
+# Modificações do Revela em relação ao LightCraft
 
-O FisiRevela é a versão do [LightCraft](https://github.com/storytold/lightcraft) (ArtCraft Team e contribuidores,
+O Revela é a versão do [LightCraft](https://github.com/storytold/lightcraft) (ArtCraft Team e contribuidores,
 MIT OR Apache-2.0) que o **FisiLab — LARFIC · UFRGS**, em parceria com o **CTA — Centro de Tecnologia Acadêmica**,
 disponibiliza na Suíte FisiLab para estudantes, professores e técnicos da UFRGS. Este arquivo lista o que foi alterado
 e por quê. Modificações © 2026 FisiLab — LARFIC/UFRGS, sob os mesmos termos (MIT OR Apache-2.0).
 
 ## Nome e marca
 
-- **Nome visível**: "LightCraft" virou "FisiRevela" em tudo o que o usuário vê: título da janela, nome passado ao
-  `eframe::run_native`, menus ("About FisiRevela", "Quit FisiRevela"…), diálogos, avisos, mensagens de erro, textos do
+- **Nome visível**: "LightCraft" virou "Revela" em tudo o que o usuário vê: título da janela, nome passado ao
+  `eframe::run_native`, menus ("About Revela", "Quit Revela"…), diálogos, avisos, mensagens de erro, textos do
   servidor MCP, ajuda `--help`/`--version` do aplicativo e da CLI e os catálogos de tradução
   (`crates/ui-egui/locales/*.json`, chaves e valores renomeados juntos, para as traduções continuarem valendo). As
   notas de "What's New" (`docs/whats-new.md`, exibidas no programa) também usam o novo nome e ganharam uma nota
@@ -18,7 +18,7 @@ e por quê. Modificações © 2026 FisiLab — LARFIC/UFRGS, sob os mesmos termo
 - **Marca ArtCraft removida**: `docs/brand/` (logotipos e marca ArtCraft) foi apagado. O README original, que os
   exibia, foi mantido como `README.upstream.md` (as imagens dessa pasta não existem mais nele). Nenhum logotipo da
   ArtCraft é exibido ou embutido pelo programa.
-- **Ícone**: o lince do LightCraft foi trocado pelo ícone do FisiRevela (`assets/fisilab/`), tanto no executável
+- **Ícone**: o lince do LightCraft foi trocado pelo ícone do Revela (`assets/fisilab/`), tanto no executável
   (recurso do Windows) quanto na janela e na barra de tarefas. O ícone original continua em `assets/app-icon/`
   (MIT OR Apache-2.0) para as embalagens de macOS/Linux, que não foram refeitas.
 
@@ -31,14 +31,14 @@ e por quê. Modificações © 2026 FisiLab — LARFIC/UFRGS, sob os mesmos termo
   desliga.
 - **`APP_INFO`** em `crates/ui-egui/src/lib.rs`: nome, descrição ("Revelação e catálogo de fotos"), equivalente
   proprietário ("Adobe Lightroom"), versão e créditos ao LightCraft.
-- **Menu Ajuda**: novo item "Sobre a Suíte FisiLab…" (comando `app.fisilab`). A janela "About FisiRevela" original
+- **Menu Ajuda**: novo item "Sobre a Suíte FisiLab…" (comando `app.fisilab`). A janela "About Revela" original
   (que credita os contribuidores do LightCraft) foi mantida, renomeada; o botão "Join the ArtCraft Discord" dela virou
   "Sobre a Suíte FisiLab…".
 - **Links da comunidade** (`crates/ui-egui/src/links.rs`): "Join the ArtCraft Discord", "LightCraft Website",
   "LightCraft on GitHub" e "ArtCraft Website" foram substituídos por "Site da Suíte FisiLab" (`app.suite`),
   "Manifesto pelas tecnologias livres" (`app.manifesto`), "Projeto original (LightCraft)" (`app.upstream`) e
-  "Reportar um problema" (`app.feedback`, agora em `github.com/mrcandrade/fisirevela/issues`). O botão do Discord na
-  barra superior virou um botão "Sobre a Suíte FisiLab…". "FisiRevela Help" continua abrindo a documentação do
+  "Reportar um problema" (`app.feedback`, agora em `github.com/mrcandrade/fisilab-revela/issues`). O botão do Discord na
+  barra superior virou um botão "Sobre a Suíte FisiLab…". "Revela Help" continua abrindo a documentação do
   projeto original no GitHub.
 
 ## Cores: temas "UFRGS Noite" e "UFRGS Dia"
@@ -62,23 +62,25 @@ e por quê. Modificações © 2026 FisiLab — LARFIC/UFRGS, sob os mesmos termo
 
 ## Executáveis, identificador e pastas
 
-- Executáveis: `fisirevela.exe` (interface) e `fisirevela-cli.exe` (linha de comando), por `[[bin]]` nos crates
+- Executáveis: `fisilab-revela.exe` (interface) e `fisilab-revela-cli.exe` (linha de comando), por `[[bin]]` nos crates
   `apps/lightcraft` e `apps/lightcraft-cli` (os nomes dos pacotes Cargo continuam `lightcraft` e `lightcraft-cli`).
-  Mensagens que citam os executáveis (`fisirevela --control`, `fisirevela-cli mcp`…) e os testes que os executam foram
+  Mensagens que citam os executáveis (`fisilab-revela --control`, `fisilab-revela-cli mcp`…) e os testes que os executam foram
   atualizados.
-- Identificador do app: `ai.storyteller.lightcraft` → `br.ufrgs.fisilab.fisirevela`.
-- Pasta de configurações: `%APPDATA%\FisiRevela` (Windows), `~/Library/Application Support/FisiRevela` (macOS),
-  `~/.config/fisirevela` (Linux). Modo portátil: `portable.txt` ou `FisiRevela.portable` ao lado do executável,
-  dados em `FisiRevelaData`. Biblioteca padrão: `~/Pictures/FisiRevela Library`. Registro de pânico:
-  `fisirevela-panics.log`. Nada disso colide com uma instalação do LightCraft.
-- Filtros de log: o crate do executável agora se chama `fisirevela`, então os filtros padrão incluem `fisirevela*`.
+- Identificador do app: `ai.storyteller.lightcraft` → `br.ufrgs.fisilab.revela`.
+- Pasta de configurações: `%APPDATA%\FisiLab Revela` (Windows), `~/Library/Application Support/FisiLab Revela` (macOS),
+  `~/.config/fisilab-revela` (Linux). Modo portátil: `portable.txt` ou `Revela.portable` ao lado do executável,
+  dados em `FisiLabRevelaData`. Biblioteca padrão: `~/Pictures/Revela Library`. Registro de pânico:
+  `fisilab-revela-panics.log`. Nada disso colide com uma instalação do LightCraft.
+- Filtros de log: o executável agora se chama `fisilab-revela` (crate `fisilab_revela`, pois o Rust troca o hífen por
+  sublinhado nos alvos de log), então os filtros padrão incluem `fisilab_revela*`.
 - Recursos do Windows (`apps/lightcraft/build.rs`): ícone, ProductName, FileDescription, CompanyName, LegalCopyright,
-  OriginalFilename e InternalName do FisiRevela.
+  OriginalFilename e InternalName do Revela.
 - `packaging/windows/` (MSI WiX e `package.ps1`): nomes de executáveis, ícone, nome do produto, fabricante, chave de
-  registro (`Software\FisiLab\FisiRevela`) e novos GUIDs (UpgradeCode e componente), para não substituir uma instalação
-  do LightCraft. A Suíte FisiLab distribui um instalador próprio (Inno Setup).
+  registro (`Software\FisiLab\Revela`), pasta de instalação (`Program Files\Suite FisiLab\Revela`) e novos GUIDs
+  (UpgradeCode e componente), para não substituir uma instalação do LightCraft.
+  A Suíte FisiLab distribui um instalador próprio (Inno Setup).
 - Na metainformação de Linux, no `nfpm.yaml` e no `nix/package.nix`, os links para getartcraft.com e para o Discord
-  foram trocados pelo repositório do FisiRevela; o restante dessas embalagens não foi rebatizado.
+  foram trocados pelo repositório do Revela; o restante dessas embalagens não foi rebatizado.
 
 ## Contato com servidores externos
 
@@ -97,10 +99,10 @@ e por quê. Modificações © 2026 FisiLab — LARFIC/UFRGS, sob os mesmos termo
   MCP), para manter compatibilidade com bibliotecas, predefinições e sidecars do LightCraft.
 - Metadados gravados em arquivos técnicos (Software "LightCraft" em sidecars XMP e em DNGs, `xmptk`, marca dos
   arquivos sintéticos de teste do Photo Merge): mantidos porque o leitor de DNG e os testes reconhecem esses valores.
-  A tag Software das exportações passou a ser "FisiRevela".
+  A tag Software das exportações passou a ser "Revela".
 - O aplicativo web (`apps/lightcraft-web`) só teve os textos renomeados; nomes de armazenamento do navegador
   continuam os originais.
 - Comentários de código, documentação técnica em `docs/` (exceto `whats-new.md`), `CLAUDE.md`/`AGENTS.md`,
   `LICENSE-MIT`, `LICENSE-APACHE`, `assets/ATTRIBUTION.md` e o texto original do `NOTICE` (mantido por inteiro abaixo
-  do cabeçalho do FisiRevela).
+  do cabeçalho do Revela).
 - O recurso "Edit in PhotoCraft" continua procurando o PhotoCraft.

@@ -14,7 +14,7 @@
 # interrupted, and the 3.4 GB weights are checked against the official SHA-256.
 #
 # Options:
-#     --dir DIR     where to install (default: the folder LightCraft looks in; or LIGHTCRAFT_SAM3_DIR)
+#     --dir DIR     where to install (default: the folder Revela looks in; or LIGHTCRAFT_SAM3_DIR)
 #     --repo NAME   another Hugging Face repo with the same files (default: facebook/sam3)
 #     --check       only verify an existing installation
 set -eu
@@ -26,8 +26,8 @@ SIZE=3439938512
 FILES="config.json vocab.json merges.txt tokenizer.json tokenizer_config.json special_tokens_map.json processor_config.json"
 
 case "$(uname -s)" in
-    Darwin) DEFAULT_DIR="$HOME/Library/Application Support/LightCraft/models/sam3" ;;
-    *) DEFAULT_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/lightcraft/models/sam3" ;;
+    Darwin) DEFAULT_DIR="$HOME/Library/Application Support/FisiLab Revela/models/sam3" ;;
+    *) DEFAULT_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/fisilab-revela/models/sam3" ;;
 esac
 DIR="${LIGHTCRAFT_SAM3_DIR:-$DEFAULT_DIR}"
 

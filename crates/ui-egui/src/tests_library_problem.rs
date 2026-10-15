@@ -28,7 +28,7 @@ fn unopenable_library_asks_instead_of_running_a_demo() {
     std::fs::write(&photo, png).unwrap();
 
     // another program has the library open: the launch fails like the desktop host's would
-    let held = lightcraft_catalog::LibraryLock::acquire(&lib, "another FisiRevela").unwrap();
+    let held = lightcraft_catalog::LibraryLock::acquire(&lib, "another Revela").unwrap();
     let mut session = lightcraft_engine::Session::new().with_fs();
     let err = session.open_library(&lib, true).unwrap_err().to_string();
     let png = |img: &lightcraft_raster::Rgba8| {
@@ -57,7 +57,7 @@ fn unopenable_library_asks_instead_of_running_a_demo() {
     }
     let inspect = h.request("ui.inspect", json!({}), T);
     let p = &inspect["result"]["libraryProblem"];
-    assert!(p["error"].as_str().unwrap().contains("already open in another FisiRevela"), "{p}");
+    assert!(p["error"].as_str().unwrap().contains("already open in another Revela"), "{p}");
     assert_eq!(p["temporarySession"], false);
 
     // still locked: Try Again keeps the window, with the error

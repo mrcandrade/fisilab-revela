@@ -14,7 +14,7 @@ section: graphics
 priority: optional
 maintainer: ${LIGHTCRAFT_MAINTAINER}
 vendor: Learning Machines LLC
-homepage: https://github.com/mrcandrade/fisirevela
+homepage: https://github.com/mrcandrade/fisilab-revela
 license: MIT OR Apache-2.0
 description: |-
   Open-source, native photo library and raw developer that works the way

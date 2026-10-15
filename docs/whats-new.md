@@ -1,10 +1,10 @@
-# What's new in FisiRevela
+# What's new in Revela
 
 ## Suíte FisiLab
 
-### FisiRevela
+### Revela
 - Esta é a versão do LightCraft disponibilizada pelo FisiLab — LARFIC · UFRGS em parceria com o CTA — Centro de
-  Tecnologia Acadêmica, com o nome FisiRevela, os temas UFRGS Noite e UFRGS Dia e o item Sobre a Suíte FisiLab no
+  Tecnologia Acadêmica, com o nome Revela, os temas UFRGS Noite e UFRGS Dia e o item Sobre a Suíte FisiLab no
   menu Ajuda. As notas abaixo vêm do projeto original (github.com/storytold/lightcraft), com o novo nome do programa.
 
 ## 2026-10-14
@@ -21,17 +21,17 @@
   does the photos it was made from. HDRs merged before this don't have it; merge them again.
 
 ### Portable mode
-- A file named `portable.txt` next to the FisiRevela program makes it keep its settings, logs and downloaded
-  models in a `FisiRevelaData` folder beside it instead of the per-user settings folder (issue #1200), as
+- A file named `portable.txt` next to the Revela program makes it keep its settings, logs and downloaded
+  models in a `FisiLabRevelaData` folder beside it instead of the per-user settings folder (issue #1200), as
   PhotoCraft does. If that folder can't be written, the usual folder is used and the log says why.
 
 ### Reliability
 - A photo whose Defringe amount was stored far past the sliders' 20 (in a damaged catalog or sidecar) no longer
-  crashes FisiRevela each time it renders: the amount acts as 20.
+  crashes Revela each time it renders: the amount acts as 20.
 
 ### Reliability
 - Importing a preset zip that unpacks to far more than any preset (a "zip bomb") is refused with a message naming
-  the file, instead of asking for gigabytes of memory, which could end FisiRevela.
+  the file, instead of asking for gigabytes of memory, which could end Revela.
 
 ### Reliability
 - A crop of no size (from an agent or a sidecar) no longer gives the Detail view a photo of no size to lay out
@@ -45,7 +45,7 @@
 
 ### Reliability
 - A library whose catalog file was damaged (or edited by hand) in a way that still reads no longer crashes
-  FisiRevela when it shows a stack, or hangs it when a folder is moved: on opening, records are put back under
+  Revela when it shows a stack, or hangs it when a folder is moved: on opening, records are put back under
   their own ids, stacks keep only photos that exist (at least two), folders inside themselves move to the top,
   and new photos never reuse an id in use. What was repaired is written to the log.
 
@@ -82,15 +82,15 @@
 
 ### Reliability
 - A raw file whose black level is stored as "not a number" (or infinity), or a floating-point DNG with such
-  samples, no longer crashes FisiRevela at 1:1 or on export: the bad values read as black.
+  samples, no longer crashes Revela at 1:1 or on export: the bad values read as black.
 
 ### Reliability
 - Exporting a photo more than 65,535 times as long as it is wide (a one-pixel strip), or opening the Export dialog's
-  watermark preview for it, no longer crashes FisiRevela; the export is capped at the encoders' 65,535 pixels.
+  watermark preview for it, no longer crashes Revela; the export is capped at the encoders' 65,535 pixels.
 
 ### Reliability
 - Dragging a Tone Curve point that sits very close to its neighbours (two clicks side by side, or a curve from a
-  sidecar, a preset or an agent) no longer crashes FisiRevela; the point stays between them. Curve points sent to
+  sidecar, a preset or an agent) no longer crashes Revela; the point stays between them. Curve points sent to
   `develop.curve` are kept in order, and a sidecar curve with a "NaN" or "inf" point is ignored.
 
 ### Reliability
@@ -113,7 +113,7 @@
 
 ### Reliability
 - An export enlarged far past the photo's size (20000 typed for 2000 with Don't Enlarge off) no longer ends
-  FisiRevela: an enlargement stops at 512 megapixels, as in Lightroom, and one that needs more memory than the
+  Revela: an enlargement stops at 512 megapixels, as in Lightroom, and one that needs more memory than the
   computer has is refused with the size it would take, before it starts.
 
 ### Slider drags on large raws
@@ -178,7 +178,7 @@
 - Olympus E-10 raws open with the camera's white balance (White Balance ▸ As Shot) and without the grey haze in
   the shadows: the black level recorded in the file is now subtracted.
 ### Told when there is no GPU
-- When GPU rendering is on but no graphics processor can be found, FisiRevela now says so once at start-up instead
+- When GPU rendering is on but no graphics processor can be found, Revela now says so once at start-up instead
   of quietly rendering everything on the CPU, much more slowly. Help ▸ System Info says why. On NixOS this happens
   when a `cargo` build runs outside `nix develop` (no Vulkan loader); start it from there.
 ## 2026-10-12
@@ -208,14 +208,14 @@
 ## 2026-10-11
 
 ### HDR and panorama merges of CR2 keep their colour
-- Photo Merge of Canon CR2 (and other raws whose colour FisiRevela fits from the camera's own JPEG, such as NEF and
+- Photo Merge of Canon CR2 (and other raws whose colour Revela fits from the camera's own JPEG, such as NEF and
   ARW) gives the merged DNG the colour each photo has when opened alone (issue #965). An HDR merge of CR2s used to come
   out green and dark.
 ### "Rendering…" on the photo
 - The loupe says "Rendering…" at the bottom of the photo when what it shows isn't the finished photo yet: the
   camera's embedded JPEG while a raw decodes, the previous render while an edit renders, or the magnified frame
   while the 1:1 detail is on its way. It appears once that has lasted half a second, so quick renders never show it.
-- If FisiRevela can't open a photo (its original is on a drive that isn't connected, or the file is damaged) but has
+- If Revela can't open a photo (its original is on a drive that isn't connected, or the file is damaged) but has
   its embedded JPEG or a thumbnail to show, the loupe now says so at the bottom of the photo ("Original offline · no
   smart preview" or "This photo can't be opened", the reason on hover) instead of showing that preview as if it were
   the photo.
@@ -236,8 +236,8 @@
 
 ### Open Library knows a Lightroom catalog
 - Choosing a Lightroom Classic catalog folder in File → Open Library… (or one of its `Previews.lrdata` /
-  `.lrcat-data` folders, or the `.lrcat`) no longer makes an empty FisiRevela library inside it (issue #891). The
-  library open now stays, and FisiRevela says "This is a Lightroom catalog, not a FisiRevela library" and offers
+  `.lrcat-data` folders, or the `.lrcat`) no longer makes an empty Revela library inside it (issue #891). The
+  library open now stays, and Revela says "This is a Lightroom catalog, not a Revela library" and offers
   **Import Lightroom Catalog…** with that catalog, or Cancel. `lightcraft-cli --library` refuses those folders too.
 
 ### Canon EOS R5 Mark II
@@ -256,10 +256,10 @@
 
 ### Edit in PhotoCraft
 - Right-click a photo ▸ Edit In ▸ Edit in PhotoCraft (or Photo ▸ Edit In, ⇧⌘E) renders a copy with your edits, stacks it
-  with the original and opens it in PhotoCraft. FisiRevela finds PhotoCraft where its installer put it (Windows,
+  with the original and opens it in PhotoCraft. Revela finds PhotoCraft where its installer put it (Windows,
   macOS, Linux packages, AppImage, Flatpak), and says so if it isn't installed, before making a copy.
 - The copy is a 16-bit PSD by default, which PhotoCraft saves straight back to with File ▸ Save; when you come back to
-  FisiRevela the copy shows what you saved.
+  Revela the copy shows what you saved.
 - Settings ▸ General ▸ External Editing: the format (PSD or TIFF), colour space and bit depth for PhotoCraft and for
   the other editor (Edit in Other Editor, now ⌥⌘E), and where PhotoCraft is if you use a portable copy.
 - Export can write PSD too (flat, 8- or 16-bit).
@@ -270,13 +270,13 @@
   with those edits went from about 3.7 s to 1.9 s. Photos look the same as before.
 
 ### Reliability
-- Upgrading from a Windows installer older than 0.6 (such as 0.5.0) keeps FisiRevela in the folder it was installed
+- Upgrading from a Windows installer older than 0.6 (such as 0.5.0) keeps Revela in the folder it was installed
   in, instead of moving it back to Program Files (issue #399). If that folder has been deleted since, the upgrade
   installs to Program Files.
-- A photo that runs into a bug in FisiRevela while it renders (in a raw decoder or the editing pipeline) now fails
+- A photo that runs into a bug in Revela while it renders (in a raw decoder or the editing pipeline) now fails
   like a photo that can't be opened, with the reason, instead of rendering forever; its thumbnail stops waiting too.
   Each such bug used to take one of the render threads with it, so after a few of them no photo rendered until
-  FisiRevela was restarted. The bug is still written to the log (Help ▸ Open Log Folder) for a report.
+  Revela was restarted. The bug is still written to the log (Help ▸ Open Log Folder) for a report.
 
 ### Library sorting
 - Photos that tie on the sort key (equal ratings, one import batch, a burst shot within the same second) now sort by
@@ -320,7 +320,7 @@
 - Agents: `view.sidebarSection`, `view.sidebarMoveSection`, `view.sidebarReset`; `ui.set` takes `sidebar`.
 
 ### Kelvin white balance for raws whose camera has colour matrices
-- Raws from the 52 camera models whose colour matrices FisiRevela has measured (Sony ILCE-7M3, ILCE-7M4, ILCE-7RM3,
+- Raws from the 52 camera models whose colour matrices Revela has measured (Sony ILCE-7M3, ILCE-7M4, ILCE-7RM3,
   Nikon D850, Canon EOS 5D Mark III and others) now show white balance in Kelvin, as a DNG does and as Lightroom
   does: As Shot reads the file's white (an ILCE-7M3 sample: 4268 K / +7), the Temp slider runs 2000–50000 K and the
   Daylight, Cloudy, Shade, Tungsten, Fluorescent and Flash presets set real temperatures (issue #730). The matrices
@@ -350,7 +350,7 @@
 - The Export dialog has **Add to Apple Photos**, with an optional album. The files are exported to your folder as
   usual and then added to Photos, into a top-level album of that name (made when it's missing). The toast says how
   many Photos added, or why it added none. Export with Previous and export presets repeat it.
-- The first time, macOS asks whether FisiRevela may control Photos. Photos may ask about duplicates; files it skips
+- The first time, macOS asks whether Revela may control Photos. Photos may ask about duplicates; files it skips
   show as a partial import.
 - Agents: `app.export {addToPhotos, photosAlbum}`, `export.addToPhotos {paths}` for files already on disk, and
   `export.photosImports`. See [Add to Apple Photos](apple-photos.md).
@@ -384,7 +384,7 @@
 - Closing a library releases its lock explicitly (issue #680). On Linux and macOS the lock used to go with the file
   handle, and a program being started by another thread at that moment held a copy of the handle until it was fully
   launched, so reopening the library straight away could be refused with "This library is already open in another
-  FisiRevela program" although nothing had it open. Nothing in the shipped app is known to hit the window today; it
+  Revela program" although nothing had it open. Nothing in the shipped app is known to hit the window today; it
   made a lock test flaky, and the fix closes the window for good.
 
 ## 2026-10-09
@@ -437,7 +437,7 @@
 - File ▸ Import Keywords… and Export Keywords… read and write keyword list files as Lightroom Classic does (a keyword
   a line, a tab per level, synonyms in braces, keywords left out of export in brackets). Capture One, darktable, Adobe
   Bridge and Photo Supreme (its Formatted Vocabulary File) use the same files, so keyword lists move between them and
-  FisiRevela. Importing adds the keywords you don't have, in one undo step; a file it can't read says which line, or
+  Revela. Importing adds the keywords you don't have, in one undo step; a file it can't read says which line, or
   to save it as UTF-8. Exporting warns about keywords Capture One won't import, and names any keyword the format can't
   hold (such as a name in brackets), which it leaves out so the file always reads back.
 
@@ -478,7 +478,7 @@
   no longer saves it). Return in those dialogs now confirms them, and their name opens selected. More fields will
   follow.
 - On Windows and Linux, Ctrl+C outside a text field copies edit settings and Ctrl+V pastes them (⇧Ctrl+V: Paste
-  Selected Settings). Ctrl+V only reaches FisiRevela while the system clipboard holds text; otherwise use Edit ▸ Paste Edit
+  Selected Settings). Ctrl+V only reaches Revela while the system clipboard holds text; otherwise use Edit ▸ Paste Edit
   Settings.
 
 ### Dialogs
@@ -498,7 +498,7 @@
 - Right-click a folder (or a disk other than the startup disk) in the sidebar's Folders section ▸ Set Color Label ▸ a colour or None. The row
   shows the label's dot before its photo count. Agents use `folder.label` (`path`, `label`); `library.folders`
   reports each row's `label`.
-- A label follows its folder when it is renamed or moved in FisiRevela, together with the labels of the folders
+- A label follows its folder when it is renamed or moved in Revela, together with the labels of the folders
   inside it; undo and redo carry them back and forth.
 - The catalog format is now version 4 (`Catalog.folder_records`, `Op::SetFolderRecord`). Once this version has
   opened a library, older versions refuse it, as with every format change.
@@ -652,11 +652,11 @@
   M50, R100, R8 and RP (on the RP also in 1.6× crop mode). CR3 files the decoder can't read yet still open from their embedded JPEG, as before.
 - Canon EOS R7 C-RAW files develop from their sensor data too, instead of opening from their embedded JPEG. For R7
   C-RAWs imported earlier, Photo ▸ Reload from Disk picks up the raw data.
-- Canon CRW, Minolta MRW, Sigma X3F, Kodak KDC, Leaf MOS and Epson ERF files that FisiRevela can't decode yet
+- Canon CRW, Minolta MRW, Sigma X3F, Kodak KDC, Leaf MOS and Epson ERF files that Revela can't decode yet
   now import as "preview only" with their embedded JPEG instead of failing. A raw whose data is damaged but whose
   preview is intact does the same.
 - Raw files whose raw data sits in a private block of a TIFF (Phase One / Leaf IIQ, Canon EOS-1D / 1Ds and Kodak DCS
-  TIFFs) are no longer opened as a thumbnail-sized ordinary image. They are recognised as raws FisiRevela can't decode
+  TIFFs) are no longer opened as a thumbnail-sized ordinary image. They are recognised as raws Revela can't decode
   yet and import as "preview only", with the reason.
 - Sony ILCE-7M4 downsized lossless ARWs now decode subsampled YCbCr tiles into linear RGB,
   preserving RAW editing & full-resolution export instead of using embedded JPEG previews.
@@ -666,22 +666,22 @@
 ### Lightroom Classic catalogs
 - File → Import Lightroom Catalog… opens `.lrcat` directly, with originals referenced in place.
   Ratings, flags, labels, keywords, collections/sets, virtual copies and supported edits migrate;
-  existing FisiRevela edits are preserved by default. Source settings/history are archived, unsupported
+  existing Revela edits are preserved by default. Source settings/history are archived, unsupported
   fields are reported, and the original Lightroom database stays read-only. Rendering is approximate.
 
 ## 2026-10-05
 
 ### Reliability
-- The Windows installer asks where to install FisiRevela (Program Files by default; upgrades keep the folder you
-  chose) and ends on a page saying it was installed, with a "Launch FisiRevela" box. It used to finish without a word,
+- The Windows installer asks where to install Revela (Program Files by default; upgrades keep the folder you
+  chose) and ends on a page saying it was installed, with a "Launch Revela" box. It used to finish without a word,
   so a successful install looked like nothing had happened (issues #18, #399). Silent installs (`/qn`, `/passive`)
   show no dialogs and take `INSTALLFOLDER=...`.
 - If the desktop app can't open its window (for example when no graphics device can be used), it now says so in a
   message box that names the log file, instead of quitting without a trace (issue #260).
 - On Linux and FreeBSD, file dialogs (Import Photos…, Open Library, Export, presets, keyword lists…) are children of
-  the FisiRevela window. The xdg-desktop-portal picker used to open as a separate top-level window on Wayland
+  the Revela window. The xdg-desktop-portal picker used to open as a separate top-level window on Wayland
   ("Failed to associate portal window with parent window" in the portal's log): tiling compositors put it beside the
-  app, and with FisiRevela fullscreen it was hidden altogether, so Import Photos… looked like a hang until the
+  app, and with Revela fullscreen it was hidden altogether, so Import Photos… looked like a hang until the
   dialog was found and closed.
 - On macOS, single-key shortcuts that appear in the menu bar now work: E, C, H, M, ⇧P, I, K, D, ratings 0–5,
   labels 6–9, P / U and the rest did nothing, because macOS only passes ⌘ / ⌃ combinations and function keys
@@ -690,18 +690,18 @@
 - `--memory` sessions keep their promise to save nothing (issues #164, #169): UI changes made in one no longer
   land in `ui.json` (where they replaced the saved settings), and the GPU crash sentinel no longer creates the
   settings folder there. The same goes for the temporary session offered when the library can't be opened.
-- The desktop app keeps a log file: `logs/lightcraft.log` in its settings folder (Linux `~/.config/lightcraft/logs/`),
+- The desktop app keeps a log file: `logs/lightcraft.log` in its settings folder (Linux `~/.config/fisilab-revela/logs/`),
   with the logs of the two previous runs beside it, so warnings and crashes of a run started from a desktop menu or the
   Dock can be attached to a bug report. `LIGHTCRAFT_LOG` works as before; `RUST_LOG` takes env_logger-style
   directives. See README → Quick start → Logs.
 - Help → Open Log Folder shows that log file in the file manager (Finder, Explorer, or the folder on Linux), so it
   can be attached to a report without hunting for the settings folder (issue #260).
 - `lightcraft-cli` logs warnings on stderr too (issue #168); `LIGHTCRAFT_LOG` or `RUST_LOG` picks another level.
-- FisiRevela no longer crashes at launch on Windows PCs whose Vulkan driver is broken (issue #136, e.g. some Intel UHD
+- Revela no longer crashes at launch on Windows PCs whose Vulkan driver is broken (issue #136, e.g. some Intel UHD
   630 drivers): on Windows the window and GPU rendering use DirectX 12 only and never load the Vulkan driver unless
   asked to. `LIGHTCRAFT_GPU_BACKEND=dx12 | vulkan | metal | off` (or wgpu's `WGPU_BACKEND`, which GPU rendering
   ignored before) chooses the graphics backend; `off` renders on the CPU. The GPU now starts after the window
-  is up, and only when Settings ▸ Performance ▸ Use the GPU for rendering is on; if FisiRevela ever dies while
+  is up, and only when Settings ▸ Performance ▸ Use the GPU for rendering is on; if Revela ever dies while
   starting the GPU, the next launch starts with GPU rendering off and says how to turn it back on.
 - The Windows app no longer quits at launch with "Parent device is lost" when another program's `dxcompiler.dll` is
   on the DLL search path without its `dxil.dll` (issue #471): DirectX 12 shaders now always compile with the
@@ -729,19 +729,19 @@
   reading the card a third time (Move still compares byte for byte before it deletes a source); a file that changed
   on the card after Review Import is reported instead of being imported with stale details. Checking an export path
   against the library's originals no longer scans the whole library when nothing is at that path.
-- Saving metadata to an XMP sidecar another application wrote no longer replaces it (issue #92): FisiRevela merges its
+- Saving metadata to an XMP sidecar another application wrote no longer replaces it (issue #92): Revela merges its
   fields in and keeps the rest — e.g. that application's develop settings and edit history — byte for byte. A
   sidecar that isn't valid XMP is copied to `<name>.xmp.bak-<time>` first. With the default stem naming, a raw and a
   JPEG with the same name (`IMG_0001.CR3` + `IMG_0001.JPG`) no longer share one sidecar: the raw keeps `IMG_0001.xmp`,
   the JPEG uses `IMG_0001.JPG.xmp`.
 - A save that fails part-way (a full disk, a network share that drops) no longer looks like a damaged catalog
-  afterwards (issue #101): the partial write is cut off before FisiRevela retries, so the next launch replays every
+  afterwards (issue #101): the partial write is cut off before Revela retries, so the next launch replays every
   change. Catalogs already holding such a fragment load in full. Quitting while the catalog log can't be written
   still saves your queued changes in the closing snapshot.
-- The catalog has a format version (issue #102). Opening a library from an older FisiRevela upgrades it; a library
-  written by a newer FisiRevela is refused with "this library was written by a newer version of FisiRevela" and left
+- The catalog has a format version (issue #102). Opening a library from an older Revela upgrades it; a library
+  written by a newer Revela is refused with "this library was written by a newer version of Revela" and left
   untouched — older versions no longer read part of it as a damaged log. Once this version has opened a library,
-  FisiRevela 0.2.0 and older refuse it ("unsupported format … v2").
+  Revela 0.2.0 and older refuse it ("unsupported format … v2").
 - The control port (`--control`) closes a connection as soon as it receives anything that isn't a JSON request
   (issue #94): an HTTP request from a web page can no longer carry a command in its body. Lines are capped at
   4 MiB and connections at 16.
@@ -823,17 +823,17 @@
 - Copyright status, rights usage terms and copyright info URL in Info, metadata presets and exports.
 - Auto-Tag from Tracklog: GPS locations for your photos from a GPX track log, matched by capture time.
 - A change that can't be saved to disk (full or unplugged drive) is no longer silent: the command reports
-  "saved in memory but not written to disk", the top bar shows a warning, and FisiRevela keeps retrying until the
+  "saved in memory but not written to disk", the top bar shows a warning, and Revela keeps retrying until the
   save goes through.
 - Smaller, faster catalogs: photos you only looked at in Local (never added, rated or edited) are forgotten once
   their folder has not been browsed for 30 days — your files and sidecars stay, and browsing the folder shows them
   again. Change the period (or turn it off) in Settings → Performance.
-- A library is open in one program at a time (issue #99): opening a library that FisiRevela or `lightcraft-cli` already
-  has open — on this computer or another one sharing the folder — says who has it ("already open in FisiRevela (process
+- A library is open in one program at a time (issue #99): opening a library that Revela or `lightcraft-cli` already
+  has open — on this computer or another one sharing the folder — says who has it ("already open in Revela (process
   123 on studio-mac)") instead of letting both write and silently drop each other's edits. A crash never leaves the
   library locked: the lock is the operating system's and goes away with the program.
 - If your library can't be opened at launch (open in another program, unreadable, on a drive that isn't connected,
-  written by a newer FisiRevela), FisiRevela says so and why, and offers Try Again, Choose Another Library…, Continue
+  written by a newer Revela), Revela says so and why, and offers Try Again, Choose Another Library…, Continue
   Without Saving and Quit (issue #100). It no longer quietly starts a demo session that looked like a reset library and
   lost everything at quit; a temporary session shows a banner the whole time and never writes to your library.
 
@@ -843,9 +843,9 @@
   See [remote Metal inference](ai-masks.md#remote-metal-inference).
 - AI masks with SAM 3 (Object and Describe in the Masking panel): click an object to select it (⌥-click leaves a
   part out), or type what to select ("sky", "the red car", "car, road"); both combine with other masks, have an
-  Edge setting, and get a sharper zoomed-in pass in the background. The model runs inside FisiRevela in pure Rust
-  and never freezes the window. It is optional and not part of FisiRevela (Meta's SAM License, about 3.4 GB): the
-  first time you use an AI mask, FisiRevela asks before downloading it, shows the progress, can cancel and resume,
+  Edge setting, and get a sharper zoomed-in pass in the background. The model runs inside Revela in pure Rust
+  and never freezes the window. It is optional and not part of Revela (Meta's SAM License, about 3.4 GB): the
+  first time you use an AI mask, Revela asks before downloading it, shows the progress, can cancel and resume,
   and checks the file before using it. Masks keep their selection, so they render and export without the model.
 - Auto Sync: edits apply to every selected photo. Auto B&W mix. Automatic versions.
 - Colour-range masks: click the photo to sample. Luminance ranges: range bar, smoothness, luminance map.

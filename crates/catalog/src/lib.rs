@@ -61,7 +61,7 @@ pub enum CatalogError {
     Io(String),
     /// The library was written by a newer LightCraft (a newer catalog format, or a change this
     /// version doesn't know). Nothing was read into the session and nothing was modified.
-    #[error("this library was written by a newer version of FisiRevela ({0}); update FisiRevela to open it. The library was left unchanged.")]
+    #[error("this library was written by a newer version of Revela ({0}); update Revela to open it. The library was left unchanged.")]
     Newer(String),
 }
 

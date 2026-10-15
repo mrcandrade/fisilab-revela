@@ -1,14 +1,14 @@
-//! Where LightCraft keeps per-user data on this machine: the config folder (app settings, camera
+//! Where Revela keeps per-user data on this machine: the config folder (app settings, camera
 //! profiles, face and denoise models).
 //!
 //! [`config_dir`] picks it, in order:
 //! 1. `$LIGHTCRAFT_CONFIG_DIR`, when set (tests, agents, custom setups).
 //! 2. **Portable mode** (issue #1200, as in PhotoCraft): a marker file ([`PORTABLE_MARKERS`]) beside the
-//!    executable puts everything in `<exe dir>/LightCraftData`, so a copy on a USB stick leaves nothing in
+//!    executable puts everything in `<exe dir>/FisiLabRevelaData`, so a copy on a USB stick leaves nothing in
 //!    `%APPDATA%`. If that folder can't be written (read-only medium, Program Files), a warning is logged
 //!    and the platform folder is used.
-//! 3. The platform convention: macOS `~/Library/Application Support/LightCraft`, Windows
-//!    `%APPDATA%\LightCraft`, Linux `$XDG_CONFIG_HOME/lightcraft` or `~/.config/lightcraft`.
+//! 3. The platform convention: macOS `~/Library/Application Support/FisiLab Revela`, Windows
+//!    `%APPDATA%\FisiLab Revela`, Linux `$XDG_CONFIG_HOME/fisilab-revela` or `~/.config/fisilab-revela`.
 //!
 //! Hosts that have a file system (the desktop app, the CLI, the MCP server) share these defaults so a model
 //! installed from one is there for the others. Nothing here is applied automatically: a [`Session`] has no
@@ -22,9 +22,9 @@ use std::sync::OnceLock;
 use crate::Session;
 
 /// Files beside the executable that switch on portable mode (either one; contents are ignored).
-pub const PORTABLE_MARKERS: [&str; 2] = ["portable.txt", "FisiRevela.portable"];
+pub const PORTABLE_MARKERS: [&str; 2] = ["portable.txt", "Revela.portable"];
 /// The data folder created beside the executable in portable mode.
-pub const PORTABLE_DATA_DIR: &str = "FisiRevelaData";
+pub const PORTABLE_DATA_DIR: &str = "FisiLabRevelaData";
 
 #[derive(Clone, Copy)]
 enum Platform {
@@ -33,7 +33,7 @@ enum Platform {
     Other,
 }
 
-/// LightCraft's settings folder. A nonempty `$LIGHTCRAFT_CONFIG_DIR` overrides portable mode and the
+/// Revela's settings folder. A nonempty `$LIGHTCRAFT_CONFIG_DIR` overrides portable mode and the
 /// platform default. The override is the complete directory; no application-name suffix is appended. An
 /// explicitly empty value disables the settings directory instead of falling back to a personal profile.
 pub fn config_dir() -> Option<PathBuf> {
@@ -56,10 +56,10 @@ fn config_dir_with(platform: Platform, env: impl Fn(&str) -> Option<OsString>, p
         return Some(dir);
     }
     match platform {
-        Platform::Mac => env("HOME").map(|h| PathBuf::from(h).join("Library/Application Support/FisiRevela")),
-        Platform::Windows => env("APPDATA").map(|a| PathBuf::from(a).join("FisiRevela")),
+        Platform::Mac => env("HOME").map(|h| PathBuf::from(h).join("Library/Application Support/FisiLab Revela")),
+        Platform::Windows => env("APPDATA").map(|a| PathBuf::from(a).join("FisiLab Revela")),
         Platform::Other => {
-            env("XDG_CONFIG_HOME").map(PathBuf::from).or_else(|| env("HOME").map(|h| PathBuf::from(h).join(".config"))).map(|c| c.join("fisirevela"))
+            env("XDG_CONFIG_HOME").map(PathBuf::from).or_else(|| env("HOME").map(|h| PathBuf::from(h).join(".config"))).map(|c| c.join("fisilab-revela"))
         }
     }
 }
@@ -81,7 +81,7 @@ fn portable_dir() -> Option<PathBuf> {
     .clone()
 }
 
-/// `<exe_dir>/LightCraftData` when `exe_dir` holds a portable marker; `Err` says why a marked folder
+/// `<exe_dir>/FisiLabRevelaData` when `exe_dir` holds a portable marker; `Err` says why a marked folder
 /// can't be used (the caller falls back to the platform folder).
 fn portable_dir_in(exe_dir: &Path) -> Result<Option<PathBuf>, String> {
     let Some(marker) = PORTABLE_MARKERS.iter().map(|m| exe_dir.join(m)).find(|p| p.is_file()) else {
@@ -244,10 +244,10 @@ mod config_tests {
     #[test]
     fn config_unset_override_keeps_platform_defaults() {
         let vars = [("HOME", "/user"), ("APPDATA", "/roaming"), ("XDG_CONFIG_HOME", "/xdg")];
-        assert_eq!(resolve(Platform::Mac, &vars), Some(PathBuf::from("/user/Library/Application Support/FisiRevela")));
-        assert_eq!(resolve(Platform::Windows, &vars), Some(PathBuf::from("/roaming/FisiRevela")));
-        assert_eq!(resolve(Platform::Other, &vars), Some(PathBuf::from("/xdg/fisirevela")));
-        assert_eq!(resolve(Platform::Other, &[("HOME", "/user")]), Some(PathBuf::from("/user/.config/fisirevela")));
+        assert_eq!(resolve(Platform::Mac, &vars), Some(PathBuf::from("/user/Library/Application Support/FisiLab Revela")));
+        assert_eq!(resolve(Platform::Windows, &vars), Some(PathBuf::from("/roaming/FisiLab Revela")));
+        assert_eq!(resolve(Platform::Other, &vars), Some(PathBuf::from("/xdg/fisilab-revela")));
+        assert_eq!(resolve(Platform::Other, &[("HOME", "/user")]), Some(PathBuf::from("/user/.config/fisilab-revela")));
         for platform in [Platform::Mac, Platform::Windows, Platform::Other] {
             assert_eq!(resolve(platform, &[]), None);
         }

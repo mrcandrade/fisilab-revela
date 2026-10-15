@@ -1532,7 +1532,7 @@ pub fn export_metadata(photo: &lightcraft_catalog::Photo, catalog: &lightcraft_c
         usage_terms: text(&m.usage_terms),
         copyright_url: text(&m.copyright_url),
         artist: text(&m.creator),
-        software: Some("FisiRevela".into()),
+        software: Some("Revela".into()),
         ..Default::default()
     };
     match o.metadata {

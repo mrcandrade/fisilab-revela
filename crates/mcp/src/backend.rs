@@ -93,7 +93,7 @@ impl Remote {
 
     fn unknown_outcome(&self, method: &str, e: &std::io::Error) -> String {
         let addr = &self.addr;
-        format!("lost the FisiRevela app at {addr} after sending `{method}` ({e}); the outcome is unknown and it was not resent, check the app")
+        format!("lost the Revela app at {addr} after sending `{method}` ({e}); the outcome is unknown and it was not resent, check the app")
     }
 }
 
@@ -124,7 +124,7 @@ impl Backend for Remote {
                     if sent {
                         self.unknown_outcome(method, &e)
                     } else {
-                        format!("FisiRevela app at {} is not reachable: {e} (start it with `fisirevela --control PORT`)", self.addr)
+                        format!("Revela app at {} is not reachable: {e} (start it with `fisilab-revela --control PORT`)", self.addr)
                     }
                 })?
             }

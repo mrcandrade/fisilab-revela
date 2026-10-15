@@ -1,11 +1,11 @@
 <#
 .SYNOPSIS
-  Build, sign and package FisiRevela (Suíte FisiLab; based on LightCraft) for Windows.
+  Build, sign and package Revela (Suíte FisiLab; based on LightCraft) for Windows.
 
 .DESCRIPTION
   Produces, in $env:DIST (default: dist/release):
-    fisirevela-<version>-windows-<arch>.msi            per-machine installer (WiX v5)
-    fisirevela-<version>-windows-<arch>-portable.zip   fisirevela.exe + fisirevela-cli.exe
+    fisilab-revela-<version>-windows-<arch>.msi            per-machine installer (WiX v5)
+    fisilab-revela-<version>-windows-<arch>-portable.zip   fisilab-revela.exe + fisilab-revela-cli.exe
 
   The binaries link the C runtime statically (+crt-static), so neither the MSI nor the portable
   zip needs the Visual C++ redistributable. Signing is delegated to sign.ps1 (skipped with a
@@ -78,7 +78,7 @@ New-Item -ItemType Directory -Force -Path $Dist | Out-Null
 if (-not $env:LIGHTCRAFT_BUILD_SHA) { $env:LIGHTCRAFT_BUILD_SHA = (git -C $Root rev-parse HEAD 2>$null) }
 if (-not $env:LIGHTCRAFT_BUILD_DATE) { $env:LIGHTCRAFT_BUILD_DATE = (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd') }
 
-Write-Output "FisiRevela $Version for Windows $Arch ($Target)"
+Write-Output "Revela $Version for Windows $Arch ($Target)"
 
 if (-not $SkipBuild) {
   # Static CRT: no VC++ redistributable needed. Scoped to the target so host build scripts and
@@ -102,7 +102,7 @@ function Get-PeHeader([string] $Path) {
   return @{ Machine = [BitConverter]::ToUInt16($bytes, $pe + 4); Subsystem = [BitConverter]::ToUInt16($bytes, $pe + 0x5C) }
 }
 $Machine = switch ($Arch) { 'x64' { 0x8664 } 'x86' { 0x14C } 'arm64' { 0xAA64 } }
-foreach ($check in @(@('fisirevela.exe', 2), @('fisirevela-cli.exe', 3))) {
+foreach ($check in @(@('fisilab-revela.exe', 2), @('fisilab-revela-cli.exe', 3))) {
   $h = Get-PeHeader (Join-Path $Bin $check[0])
   if ($h.Machine -ne $Machine) { throw "$($check[0]) is for machine 0x$('{0:X}' -f $h.Machine), expected 0x$('{0:X}' -f $Machine) ($Arch)" }
   if ($h.Subsystem -ne $check[1]) { throw "$($check[0]) has PE subsystem $($h.Subsystem), expected $($check[1])" }
@@ -111,9 +111,9 @@ foreach ($check in @(@('fisirevela.exe', 2), @('fisirevela-cli.exe', 3))) {
 $Stage = Join-Path $TargetDir "windows-package\$Arch"
 Remove-Item -Recurse -Force $Stage -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Force -Path $Stage | Out-Null
-Copy-Item (Join-Path $Bin 'fisirevela.exe'), (Join-Path $Bin 'fisirevela-cli.exe') $Stage
+Copy-Item (Join-Path $Bin 'fisilab-revela.exe'), (Join-Path $Bin 'fisilab-revela-cli.exe') $Stage
 
-& (Join-Path $PSScriptRoot 'sign.ps1') (Join-Path $Stage 'fisirevela.exe') (Join-Path $Stage 'fisirevela-cli.exe')
+& (Join-Path $PSScriptRoot 'sign.ps1') (Join-Path $Stage 'fisilab-revela.exe') (Join-Path $Stage 'fisilab-revela-cli.exe')
 
 # ---- MSI ---------------------------------------------------------------------------------------
 # Extensions must match the WiX tool version (5.0.2, see release.yml). Re-adding is harmless.
@@ -131,10 +131,10 @@ $UiBannerBmp = Join-Path $Stage 'ui-banner.bmp'
 New-PanelBitmap $UiDialogBmp 493 312 164 ([byte[]](0x4E, 0x7B, 0xFB)) ([byte[]](0xFF, 0xFF, 0xFF))
 New-PanelBitmap $UiBannerBmp 493 58 0 ([byte[]](0xFF, 0xFF, 0xFF)) ([byte[]](0xFF, 0xFF, 0xFF))
 
-$Msi = Join-Path $Dist "fisirevela-$Version-windows-$Arch.msi"
+$Msi = Join-Path $Dist "fisilab-revela-$Version-windows-$Arch.msi"
 Invoke-Native 'wix build' {
   wix build (Join-Path $PSScriptRoot 'lightcraft.wxs') -arch $Arch -culture en-us @ExtArgs `
-    -d "Version=$MsiVersion" -d "BinDir=$Stage" -d "IconPath=$(Join-Path $Root 'assets\fisilab\fisirevela.ico')" `
+    -d "Version=$MsiVersion" -d "BinDir=$Stage" -d "IconPath=$(Join-Path $Root 'assets\fisilab\fisilab-revela.ico')" `
     -d "UiDialogBmp=$UiDialogBmp" -d "UiBannerBmp=$UiBannerBmp" `
     -o $Msi
 }
@@ -143,7 +143,7 @@ Remove-Item -Force -ErrorAction SilentlyContinue ([IO.Path]::ChangeExtension($Ms
 & (Join-Path $PSScriptRoot 'sign.ps1') $Msi
 
 # ---- portable zip ------------------------------------------------------------------------------
-$Portable = Join-Path $TargetDir "windows-package\fisirevela-$Version-windows-$Arch-portable"
+$Portable = Join-Path $TargetDir "windows-package\fisilab-revela-$Version-windows-$Arch-portable"
 Remove-Item -Recurse -Force $Portable -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Force -Path $Portable | Out-Null
 Copy-Item (Join-Path $Stage '*.exe') $Portable
@@ -157,7 +157,7 @@ if ($env:CRAFT_FONTS_DIR) {
     Copy-Item $_.FullName (Join-Path $Portable "OFL-$($_.Directory.Name).txt")
   }
 }
-$Zip = Join-Path $Dist "fisirevela-$Version-windows-$Arch-portable.zip"
+$Zip = Join-Path $Dist "fisilab-revela-$Version-windows-$Arch-portable.zip"
 Remove-Item -Force $Zip -ErrorAction SilentlyContinue
 Compress-Archive -Path $Portable -DestinationPath $Zip
 
@@ -165,8 +165,8 @@ Compress-Archive -Path $Portable -DestinationPath $Zip
 # here; .github/workflows/windows-arm64.yml installs and runs it on ARM64 instead.
 $HostArch = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLowerInvariant()
 if ($Arch -ne 'arm64' -or $HostArch -eq 'arm64') {
-  Invoke-Native 'fisirevela-cli --version' { & (Join-Path $Stage 'fisirevela-cli.exe') --version }
+  Invoke-Native 'fisilab-revela-cli --version' { & (Join-Path $Stage 'fisilab-revela-cli.exe') --version }
 } else {
-  Write-Output "skipping fisirevela-cli --version: an $Arch build doesn't run on this $HostArch machine"
+  Write-Output "skipping fisilab-revela-cli --version: an $Arch build doesn't run on this $HostArch machine"
 }
 Get-Item $Msi, $Zip | Format-Table Name, Length

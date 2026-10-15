@@ -50,7 +50,7 @@ try {
     }
     $copy.OuterXml
   }
-  $directory = $source.SelectSingleNode('/w:Wix/w:Package/w:StandardDirectory[w:Directory[@Id="INSTALLFOLDER"]]', $ns).OuterXml
+  $directory = $source.SelectSingleNode('/w:Wix/w:Package/w:StandardDirectory[.//w:Directory[@Id="INSTALLFOLDER"]]', $ns).OuterXml
   $probe = @"
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <Package Name="LightCraft folder search test $id" Manufacturer="LightCraft tests"
@@ -75,15 +75,15 @@ try {
   $explicit = Join-Path $root 'explicit app'
   $emptied = Join-Path $root 'emptied app'
   New-Item -ItemType Directory -Path $legacy, $modern, $explicit, $emptied | Out-Null
-  $legacyExe = Join-Path $legacy 'lightcraft.exe'
+  $legacyExe = Join-Path $legacy 'fisilab-revela.exe'
   [IO.File]::WriteAllText($legacyExe, 'test placeholder; never executed')
   $programFiles = if ($Arch -eq 'x86' -and ${env:ProgramFiles(x86)}) { ${env:ProgramFiles(x86)} } else { $env:ProgramFiles }
   $cases = @(
-    @{ Name = 'fresh'; Expected = (Join-Path $programFiles 'LightCraft') },
+    @{ Name = 'fresh'; Expected = (Join-Path $programFiles 'Suite FisiLab\Revela') },
     @{ Name = 'legacy-app-paths'; Legacy = $legacyExe; Expected = $legacy },
     # A stale unquoted path with a space used to resolve to the parent of the text before the space.
-    @{ Name = 'legacy-folder-deleted'; Legacy = (Join-Path $root 'deleted app\lightcraft.exe'); Expected = (Join-Path $programFiles 'LightCraft') },
-    @{ Name = 'legacy-exe-deleted'; Legacy = (Join-Path $emptied 'lightcraft.exe'); Expected = (Join-Path $programFiles 'LightCraft') },
+    @{ Name = 'legacy-folder-deleted'; Legacy = (Join-Path $root 'deleted app\fisilab-revela.exe'); Expected = (Join-Path $programFiles 'Suite FisiLab\Revela') },
+    @{ Name = 'legacy-exe-deleted'; Legacy = (Join-Path $emptied 'fisilab-revela.exe'); Expected = (Join-Path $programFiles 'Suite FisiLab\Revela') },
     @{ Name = 'remembered-folder'; Modern = $true; Expected = $modern },
     @{ Name = 'remembered-beats-legacy'; Modern = $true; Legacy = $legacyExe; Expected = $modern },
     @{ Name = 'explicit-beats-legacy'; Legacy = $legacyExe; Explicit = $true; Expected = $explicit },
@@ -91,8 +91,8 @@ try {
   )
   foreach ($case in $cases) {
     $registry.DeleteSubKeyTree($key, $false)
-    if ($case.Legacy) { Set-TestValue 'Software\Microsoft\Windows\CurrentVersion\App Paths\lightcraft.exe' '' $case.Legacy }
-    if ($case.Modern) { Set-TestValue 'Software\LightCraft' 'InstallFolder' "$modern\" }
+    if ($case.Legacy) { Set-TestValue 'Software\Microsoft\Windows\CurrentVersion\App Paths\fisilab-revela.exe' '' $case.Legacy }
+    if ($case.Modern) { Set-TestValue 'Software\FisiLab\Revela' 'InstallFolder' "$modern\" }
     $arguments = @('/i', "`"$msi`"")
     if ($case.Explicit) { $arguments += "INSTALLFOLDER=`"$explicit`"" }
     # Also attempt cleanup if an installation only partially completes.

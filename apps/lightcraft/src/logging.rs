@@ -3,7 +3,7 @@
 //! It replaces the stderr-only `StderrLog` that `main.rs` used to install. A launch from a
 //! desktop menu or the Dock has no terminal, so the file is what a bug report can attach:
 //! `<settings folder>/logs/lightcraft.log`, next to `ui.json` (`config_dir` in `main.rs`; Linux
-//! `$XDG_CONFIG_HOME/lightcraft/logs`, by default `~/.config/lightcraft/logs`). Never in the
+//! `$XDG_CONFIG_HOME/fisilab-revela/logs`, by default `~/.config/fisilab-revela/logs`). Never in the
 //! library folder. Each start moves the previous log to `lightcraft.1.log` (and that one to `.2`),
 //! so the log of a run that crashed survives the next launch. Runs with `LIGHTCRAFT_NO_PREFS`
 //! (tests, scripts) log to standard error only, so they don't rotate away the user's own logs.
@@ -39,7 +39,7 @@ pub const MAX_FILE_BYTES: u64 = 16 * 1024 * 1024;
 /// Records kept in memory until the log file is attached.
 pub const MAX_PENDING: usize = 512;
 /// The built-in filter when neither `LIGHTCRAFT_LOG` nor `RUST_LOG` says otherwise.
-pub const DEFAULT_FILTER: &str = "warn,lightcraft*=info,fisirevela*=info";
+pub const DEFAULT_FILTER: &str = "warn,lightcraft*=info,fisilab_revela*=info";
 
 /// The filter directives for this run from `LIGHTCRAFT_LOG` and `RUST_LOG` (blank = unset).
 ///
@@ -50,8 +50,8 @@ pub fn filter_spec(lightcraft_log: Option<&str>, rust_log: Option<&str>) -> Stri
     let set = |v: Option<&str>| v.map(str::trim).filter(|v| !v.is_empty()).map(str::to_owned);
     if let Some(level) = set(lightcraft_log) {
         return match level.as_str() {
-            "debug" => "warn,lightcraft*=debug,fisirevela*=debug".to_owned(),
-            "info" => "warn,lightcraft*=info,fisirevela*=info".to_owned(),
+            "debug" => "warn,lightcraft*=debug,fisilab_revela*=debug".to_owned(),
+            "info" => "warn,lightcraft*=info,fisilab_revela*=info".to_owned(),
             _ => "warn".to_owned(),
         };
     }

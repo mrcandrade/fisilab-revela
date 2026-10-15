@@ -4,11 +4,11 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 publish = false
-default-run = "fisirevela-cli"
+default-run = "fisilab-revela-cli"
 description = "LightCraft command-line tool: headless render, command listing and the MCP server"
 
 [[bin]]
-name = "fisirevela-cli"
+name = "fisilab-revela-cli"
 path = "src/main.rs"
 
 [lints]

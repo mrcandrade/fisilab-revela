@@ -209,7 +209,7 @@ rustPlatform.buildRustPackage {
       layer as its UI. It ships with lightcraft-cli, a headless renderer, command runner and MCP
       server for AI agents.
     '';
-    homepage = "https://github.com/mrcandrade/fisirevela";
+    homepage = "https://github.com/mrcandrade/fisilab-revela";
     license = with lib.licenses; [
       mit
       asl20

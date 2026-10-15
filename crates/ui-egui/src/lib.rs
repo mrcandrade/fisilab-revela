@@ -40,10 +40,10 @@ pub mod theme;
 pub mod titlebar;
 pub mod widgets;
 
-/// FisiRevela as a member of the Suíte FisiLab (UFRGS): what the shared About window and the opening
+/// Revela as a member of the Suíte FisiLab (UFRGS): what the shared About window and the opening
 /// animation say about this app.
 pub const APP_INFO: fisilab_brand::AppInfo = fisilab_brand::AppInfo {
-    name: "FisiRevela",
+    name: "Revela",
     tagline: "Revelação e catálogo de fotos",
     equivalent: "Adobe Lightroom",
     version: env!("CARGO_PKG_VERSION"),
@@ -716,7 +716,7 @@ impl LightcraftApp {
                 let t = ctx.input(|i| i.time);
                 self.ui.toast = Some((
                     crate::i18n::tr_format!(
-                        "{n} change{} saved in memory but not written to disk: {e} — FisiRevela will retry",
+                        "{n} change{} saved in memory but not written to disk: {e} — Revela will retry",
                         if n == 1 { "" } else { "s" },
                         n = n,
                         e = e
@@ -1310,11 +1310,11 @@ impl LightcraftApp {
         ctx.send_viewport_cmd(egui::ViewportCommand::Title(self.window_title()));
     }
 
-    /// "FisiRevela — <library name>" (just "FisiRevela" for a library that isn't saved).
+    /// "Revela — <library name>" (just "Revela" for a library that isn't saved).
     pub fn window_title(&self) -> String {
         match panels::settings::open_library_name(self) {
-            Some(name) => format!("FisiRevela — {name}"),
-            None => "FisiRevela".to_string(),
+            Some(name) => format!("Revela — {name}"),
+            None => "Revela".to_string(),
         }
     }
 
