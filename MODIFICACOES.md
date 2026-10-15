@@ -2,7 +2,7 @@
 
 O Revela é a versão do [LightCraft](https://github.com/storytold/lightcraft) (ArtCraft Team e contribuidores,
 MIT OR Apache-2.0) que o **FisiLab — LARFIC · UFRGS**, em parceria com o **CTA — Centro de Tecnologia Acadêmica**,
-disponibiliza na Suíte FisiLab para estudantes, professores e técnicos da UFRGS. Este arquivo lista o que foi alterado
+disponibiliza na Suíte FisiLab para democratizar o acesso à tecnologia entre os alunos da UFRGS. Este arquivo lista o que foi alterado
 e por quê. Modificações © 2026 FisiLab — LARFIC/UFRGS, sob os mesmos termos (MIT OR Apache-2.0).
 
 ## Nome e marca
