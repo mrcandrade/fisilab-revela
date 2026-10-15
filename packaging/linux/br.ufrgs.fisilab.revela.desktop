@@ -1,12 +1,12 @@
 [Desktop Entry]
 Type=Application
-Name=LightCraft
-GenericName=Photo Library and Raw Developer
-Comment=Organise photos and develop raw files, non-destructively
-Exec=lightcraft %F
-Icon=ai.storyteller.lightcraft
+Name=Revela
+GenericName=Revelação e catálogo de fotos
+Comment=Revelação e catálogo de fotos — Suíte FisiLab (alternativa livre)
+Exec=fisilab-revela %F
+Icon=br.ufrgs.fisilab.revela
 Terminal=false
 Categories=Graphics;2DGraphics;RasterGraphics;Photography;
-Keywords=photo;raw;camera;library;develop;
-StartupWMClass=ai.storyteller.lightcraft
+Keywords=photo;raw;camera;library;develop;foto;fotografia;revelação;catálogo;
+StartupWMClass=br.ufrgs.fisilab.revela
 MimeType=image/jpeg;image/png;image/tiff;image/webp;image/x-adobe-dng;image/x-sony-arw;image/x-canon-cr2;image/x-canon-cr3;image/x-nikon-nef;image/x-fuji-raf;image/x-olympus-orf;image/x-panasonic-rw2;image/x-panasonic-rw;image/x-pentax-pef;

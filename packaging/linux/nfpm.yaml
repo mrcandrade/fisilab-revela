@@ -3,7 +3,7 @@
 # exports VERSION and NFPM_ARCH.
 #
 #   nfpm package -f packaging/linux/nfpm.yaml -p deb -t dist/release/
-name: lightcraft
+name: fisilab-revela
 arch: ${NFPM_ARCH}
 platform: linux
 version: ${VERSION}
@@ -12,16 +12,17 @@ version_schema: semver
 release: 1
 section: graphics
 priority: optional
-maintainer: ${LIGHTCRAFT_MAINTAINER}
-vendor: Learning Machines LLC
-homepage: https://github.com/mrcandrade/fisilab-revela
+maintainer: "FisiLab - LARFIC/UFRGS <mrcandrade@users.noreply.github.com>"
+vendor: FisiLab - LARFIC/UFRGS
+homepage: https://github.com/mrcandrade/larfic
 license: MIT OR Apache-2.0
 description: |-
-  Open-source, native photo library and raw developer that works the way
-  Lightroom users expect. Import, rate, keyword and organise photos; develop
-  raw files non-destructively with exposure, tone, color grading, masks and
-  presets; GPU processing (wgpu). Includes lightcraft-cli, a headless renderer
-  and command runner.
+  Revela: catálogo e revelação de fotos, com edição não destrutiva de
+  arquivos raw (exposição, tons, cores, máscaras e predefinições) e
+  processamento na GPU. Inclui fisilab-revela-cli, um renderizador e
+  executor de comandos sem interface. Suíte FisiLab (alternativa livre).
+  Baseado no LightCraft, do ArtCraft Team e contribuidores (MIT ou
+  Apache 2.0).
 
 # The binaries link only glibc and libgcc_s directly. Windowing (X11/Wayland, xkbcommon) and the
 # GPU (Vulkan, EGL/GL) are loaded at runtime, so they are dependencies/recommendations here
@@ -56,11 +57,11 @@ overrides:
       - xdg-desktop-portal
 
 contents:
-  - src: ${STAGE}/usr/bin/lightcraft
-    dst: /usr/bin/lightcraft
+  - src: ${STAGE}/usr/bin/fisilab-revela
+    dst: /usr/bin/fisilab-revela
     file_info: { mode: 0755 }
-  - src: ${STAGE}/usr/bin/lightcraft-cli
-    dst: /usr/bin/lightcraft-cli
+  - src: ${STAGE}/usr/bin/fisilab-revela-cli
+    dst: /usr/bin/fisilab-revela-cli
     file_info: { mode: 0755 }
   - src: ${STAGE}/usr/share/
     dst: /usr/share/

@@ -48,6 +48,10 @@ Baixe o instalador `FisiLab-Revela-Setup-<versão>.exe` na [página de downloads
 menu Iniciar. Na primeira execução, a interface já abre em português do Brasil, com a paleta original do LightCraft (opções **Noite** e **Dia**,
 além de Midnight e Paper, em Configurações ▸ Interface).
 
+### Linux
+
+Baixe o `FisiLab-Revela-<versão>-x86_64.AppImage` na [página de downloads da Suíte FisiLab](https://github.com/mrcandrade/larfic/releases/latest), marque-o como executável (`chmod +x` ou Propriedades ▸ Permitir executar) e abra-o. Em Ubuntu/Debian, também é possível instalar o `fisilab-revela_<versão>_amd64.deb` com `sudo apt install ./fisilab-revela_<versão>_amd64.deb`. Requer Ubuntu 22.04 ou mais novo (ou equivalente).
+
 ### Compilar a partir do código
 
 É preciso ter o [Rust](https://rustup.rs) instalado (no Windows, com as Build Tools do Visual Studio).
