@@ -4,7 +4,7 @@
 
 ### Revela
 - Esta é a versão do LightCraft disponibilizada pelo FisiLab — LARFIC · UFRGS em parceria com o CTA — Centro de
-  Tecnologia Acadêmica, com o nome Revela, os temas UFRGS Noite e UFRGS Dia e o item Sobre a Suíte FisiLab no
+  Tecnologia Acadêmica, com o nome Revela, os temas Noite e Dia e o item Sobre a Suíte FisiLab no
   menu Ajuda. As notas abaixo vêm do projeto original (github.com/storytold/lightcraft), com o novo nome do programa.
 
 ## 2026-10-14

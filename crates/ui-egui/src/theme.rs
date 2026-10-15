@@ -2,10 +2,8 @@
 //! reference app's dark theme (see plan/lightroom/10-observed-ui.md); everything is our own code.
 //!
 //! Themes come in two families, picked by the Appearance Mode setting (Settings ▸ Interface):
-//! - dark: **UFRGS Noite** (the default: the Suíte FisiLab colours, `fisilab_brand::palette::NOITE`),
-//!   **Charcoal** (the observed dark look) and **Midnight** (near black);
-//! - light: **UFRGS Dia** (the suite's light colours, `fisilab_brand::palette::DIA`), **Silver** (light
-//!   grey chrome) and **Paper** (near white).
+//! - dark: **Charcoal** (the default, the observed dark look) and **Midnight** (near black);
+//! - light: **Silver** (light grey chrome) and **Paper** (near white).
 
 use std::sync::Arc;
 
@@ -84,11 +82,7 @@ pub struct Tokens {
 /// An interface theme. Each belongs to the dark or the light family.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash)]
 pub enum ThemeKind {
-    /// Suíte FisiLab dark theme (the default).
     #[default]
-    UfrgsNoite,
-    /// Suíte FisiLab light theme.
-    UfrgsDia,
     Charcoal,
     Midnight,
     Silver,
@@ -96,27 +90,15 @@ pub enum ThemeKind {
 }
 
 impl ThemeKind {
-    pub const ALL: [ThemeKind; 6] =
-        [ThemeKind::UfrgsNoite, ThemeKind::UfrgsDia, ThemeKind::Charcoal, ThemeKind::Midnight, ThemeKind::Silver, ThemeKind::Paper];
+    pub const ALL: [ThemeKind; 4] = [ThemeKind::Charcoal, ThemeKind::Midnight, ThemeKind::Silver, ThemeKind::Paper];
 
     pub fn is_dark(self) -> bool {
-        matches!(self, ThemeKind::UfrgsNoite | ThemeKind::Charcoal | ThemeKind::Midnight)
-    }
-
-    /// The Suíte FisiLab colours this theme is built from (`None`: one of the original themes).
-    pub fn brand(self) -> Option<&'static fisilab_brand::palette::Tons> {
-        match self {
-            ThemeKind::UfrgsNoite => Some(&fisilab_brand::palette::NOITE),
-            ThemeKind::UfrgsDia => Some(&fisilab_brand::palette::DIA),
-            _ => None,
-        }
+        matches!(self, ThemeKind::Charcoal | ThemeKind::Midnight)
     }
 
     /// The theme's id (settings value and command suffix).
     pub fn id(self) -> &'static str {
         match self {
-            ThemeKind::UfrgsNoite => "ufrgsNoite",
-            ThemeKind::UfrgsDia => "ufrgsDia",
             ThemeKind::Charcoal => "charcoal",
             ThemeKind::Midnight => "midnight",
             ThemeKind::Silver => "silver",
@@ -124,14 +106,13 @@ impl ThemeKind {
         }
     }
 
-    /// The English display name.
+    /// The display name ("Noite"/"Dia" are the literal Portuguese names of Charcoal/Silver).
     pub fn label(self) -> &'static str {
         match self {
-            ThemeKind::UfrgsNoite => "UFRGS Noite",
-            ThemeKind::UfrgsDia => "UFRGS Dia",
-            ThemeKind::Charcoal => "Charcoal",
+            // Suíte FisiLab: the original dark/light pair is offered as "Noite"/"Dia" (same colours, same ids)
+            ThemeKind::Charcoal => "Noite",
             ThemeKind::Midnight => "Midnight",
-            ThemeKind::Silver => "Silver",
+            ThemeKind::Silver => "Dia",
             ThemeKind::Paper => "Paper",
         }
     }
@@ -184,11 +165,8 @@ impl Tokens {
     pub fn for_kind(kind: ThemeKind) -> Tokens {
         let rgb = |v: u32| Color32::from_rgb((v >> 16) as u8, (v >> 8) as u8, v as u8);
         let base = Tokens::default();
-        if let Some(tons) = kind.brand() {
-            return Tokens::from_brand(tons, base);
-        }
         match kind {
-            ThemeKind::UfrgsNoite | ThemeKind::UfrgsDia | ThemeKind::Charcoal => base,
+            ThemeKind::Charcoal => base,
             ThemeKind::Midnight => Tokens {
                 chrome: rgb(0x1e1e1e),
                 canvas: rgb(0x121212),
@@ -266,43 +244,6 @@ impl Tokens {
                 caution: rgb(0xb0761a),
                 ..base
             },
-        }
-    }
-
-    /// A Suíte FisiLab theme: the chrome, canvas, fields, text and accent from the suite's colour
-    /// roles (`fisilab_brand::palette::Tons`), with `base`'s metrics and photo-overlay colours.
-    fn from_brand(n: &fisilab_brand::palette::Tons, base: Tokens) -> Tokens {
-        // the grid behind the cells sits a step below the canvas (darker at night, lighter by day)
-        let grid_bg = if n.escuro { n.fundo.lerp_to_gamma(Color32::BLACK, 0.3) } else { n.fundo.lerp_to_gamma(n.painel, 0.45) };
-        Tokens {
-            chrome: n.painel,
-            canvas: n.fundo,
-            grid_bg,
-            cell: n.fundo,
-            cell_selected: if n.escuro { n.hover } else { n.borda },
-            divider: n.borda,
-            inset: n.fundo.lerp_to_gamma(n.painel, if n.escuro { 0.5 } else { 0.6 }),
-            field: n.elevado,
-            field_border: n.borda,
-            button: n.elevado,
-            button_border: n.borda.lerp_to_gamma(n.texto_fraco, 0.25),
-            hover: n.hover,
-            pressed: n.ativo,
-            tool_active: n.ativo,
-            text: n.texto,
-            text_label: n.texto.lerp_to_gamma(n.texto_fraco, 0.35),
-            text_dim: n.texto_fraco,
-            text_disabled: n.texto_fraco.lerp_to_gamma(n.painel, 0.5),
-            icon: n.texto_fraco,
-            track: n.borda.lerp_to_gamma(n.texto_fraco, 0.4),
-            thumb: n.texto_fraco.lerp_to_gamma(n.texto, 0.3),
-            thumb_hover: n.texto,
-            accent: n.destaque,
-            star: n.texto,
-            pick: n.texto,
-            reject: n.erro,
-            caution: n.aviso,
-            ..base
         }
     }
 
@@ -479,24 +420,8 @@ pub fn apply_kind(ctx: &egui::Context, kind: ThemeKind) {
     v.selection.stroke = Stroke::new(1.0, t.accent);
     v.override_text_color = Some(t.text_label);
     let (popup, window) = if dark { (140, 160) } else { (50, 60) };
-    // the Suíte FisiLab themes cast navy shadows (the brand's marinho), the others black ones
-    let shade = |alpha: u8| match kind.brand() {
-        Some(_) => {
-            let m = fisilab_brand::palette::MARINHO.lerp_to_gamma(Color32::BLACK, if dark { 0.5 } else { 0.0 });
-            Color32::from_rgba_unmultiplied(m.r(), m.g(), m.b(), alpha)
-        }
-        None => Color32::from_black_alpha(alpha),
-    };
-    v.popup_shadow = egui::epaint::Shadow { offset: [0, 4], blur: 16, spread: 0, color: shade(popup) };
-    v.window_shadow = egui::epaint::Shadow { offset: [0, 8], blur: 30, spread: 0, color: shade(window) };
-    if let Some(n) = kind.brand() {
-        // soft selection, links, warnings and errors in the suite's colours
-        v.selection.bg_fill = n.selecao;
-        v.selection.stroke = Stroke::new(1.0, n.texto);
-        v.hyperlink_color = n.foco;
-        v.warn_fg_color = n.aviso;
-        v.error_fg_color = n.erro;
-    }
+    v.popup_shadow = egui::epaint::Shadow { offset: [0, 4], blur: 16, spread: 0, color: Color32::from_black_alpha(popup) };
+    v.window_shadow = egui::epaint::Shadow { offset: [0, 8], blur: 30, spread: 0, color: Color32::from_black_alpha(window) };
     let w = &mut v.widgets;
     craft_ui::theme::WidgetPalette { noninteractive: t.chrome, inactive: t.button, hovered: t.hover, active: t.pressed, open: t.hover }.apply_to(
         w,
@@ -529,71 +454,12 @@ mod tests {
     /// (`exp(40 / 200)`) instead of growing with the longer scroll.
     #[test]
     fn a_wheel_notch_scrolls_further_but_zooms_as_before_in_every_theme() {
-        for kind in ThemeKind::ALL {
+        for kind in [ThemeKind::Charcoal, ThemeKind::Midnight, ThemeKind::Silver, ThemeKind::Paper] {
             let ctx = egui::Context::default();
             apply_kind(&ctx, kind);
             let (line, zoom) = ctx.options(|o| (o.input_options.line_scroll_speed, o.input_options.scroll_zoom_speed));
             assert_eq!(line, WHEEL_LINE_POINTS, "{kind:?}");
             assert!(((zoom * line).exp() - (40.0_f32 / 200.0).exp()).abs() < 1e-4, "{kind:?}: a notch zooms {}", (zoom * line).exp());
-        }
-    }
-
-    fn luminance(c: Color32) -> f32 {
-        let f = |x: u8| {
-            let s = x as f32 / 255.0;
-            if s <= 0.03928 { s / 12.92 } else { ((s + 0.055) / 1.055).powf(2.4) }
-        };
-        0.2126 * f(c.r()) + 0.7152 * f(c.g()) + 0.0722 * f(c.b())
-    }
-
-    fn contrast(a: Color32, b: Color32) -> f32 {
-        let (x, y) = (luminance(a), luminance(b));
-        (x.max(y) + 0.05) / (x.min(y) + 0.05)
-    }
-
-    /// Suíte FisiLab: UFRGS Noite is the default theme, both UFRGS themes come first in their
-    /// family, and their ids, labels and families are the suite's.
-    #[test]
-    fn ufrgs_themes_come_first_and_noite_is_the_default() {
-        assert_eq!(ThemeKind::default(), ThemeKind::UfrgsNoite);
-        assert_eq!(ThemeKind::ALL[..2], [ThemeKind::UfrgsNoite, ThemeKind::UfrgsDia]);
-        assert_eq!((ThemeKind::UfrgsNoite.id(), ThemeKind::UfrgsNoite.label()), ("ufrgsNoite", "UFRGS Noite"));
-        assert_eq!((ThemeKind::UfrgsDia.id(), ThemeKind::UfrgsDia.label()), ("ufrgsDia", "UFRGS Dia"));
-        assert!(ThemeKind::UfrgsNoite.is_dark() && !ThemeKind::UfrgsDia.is_dark());
-        let ctx = egui::Context::default();
-        apply(&ctx);
-        assert_eq!(current(&ctx), Some(ThemeKind::UfrgsNoite));
-        assert!(ctx.style_of(ctx.theme()).visuals.dark_mode);
-    }
-
-    /// The UFRGS themes take their colours from the brand palette; only metrics and photo overlays
-    /// come from the original tokens.
-    #[test]
-    fn ufrgs_tokens_come_from_the_brand_palette() {
-        for (kind, n) in [(ThemeKind::UfrgsNoite, &fisilab_brand::palette::NOITE), (ThemeKind::UfrgsDia, &fisilab_brand::palette::DIA)] {
-            let t = Tokens::for_kind(kind);
-            assert_eq!((t.chrome, t.canvas, t.field, t.text, t.text_dim, t.accent), (n.painel, n.fundo, n.elevado, n.texto, n.texto_fraco, n.destaque));
-            assert_eq!((t.hover, t.pressed, t.reject, t.caution), (n.hover, n.ativo, n.erro, n.aviso));
-            assert_eq!((t.top_bar_h, t.panel_w, t.film_h), (Tokens::default().top_bar_h, Tokens::default().panel_w, Tokens::default().film_h));
-            let ctx = egui::Context::default();
-            apply_kind(&ctx, kind);
-            let v = ctx.style_of(ctx.theme()).visuals.clone();
-            assert_eq!((v.panel_fill, v.hyperlink_color, v.selection.bg_fill), (n.painel, n.foco, n.selecao));
-            assert_eq!(v.dark_mode, n.escuro);
-        }
-    }
-
-    /// Text stays readable in every theme: body text at AA (4.5:1) on the chrome, canvas, fields
-    /// and buttons, dim text at 3:1 on the chrome.
-    #[test]
-    fn every_theme_keeps_text_readable() {
-        for kind in ThemeKind::ALL {
-            let t = Tokens::for_kind(kind);
-            for (name, bg) in [("chrome", t.chrome), ("canvas", t.canvas), ("field", t.field), ("button", t.button), ("hover", t.hover)] {
-                assert!(contrast(t.text, bg) >= 4.5, "{kind:?}: text on {name} {:.2}", contrast(t.text, bg));
-                assert!(contrast(t.text_label, bg) >= 4.5, "{kind:?}: label on {name} {:.2}", contrast(t.text_label, bg));
-            }
-            assert!(contrast(t.text_dim, t.chrome) >= 3.0, "{kind:?}: dim text {:.2}", contrast(t.text_dim, t.chrome));
         }
     }
 

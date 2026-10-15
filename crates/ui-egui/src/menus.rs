@@ -154,7 +154,7 @@ pub const UI_COMMANDS: &[UiCommand] = &[
     // {mode?: auto | light | dark}: Appearance Mode (cycles Auto, Light, Dark when omitted; the
     // top bar's appearance button). View ▸ Appearance lists the modes.
     ("view.appearance", "Next Appearance Mode", None, ""),
-    // {theme: ufrgsNoite | ufrgsDia | charcoal | midnight | silver | paper}: pick a theme and fix the mode to its family.
+    // {theme: charcoal (Noite, night) | midnight | silver (Dia, day) | paper}: pick a theme and fix the mode to its family.
     ("view.theme", "Theme", None, ""),
     ("dialog.allMetadata", "All Metadata…", None, "Photo"),
     ("dialog.faceModel", "Add Face Model…", None, ""),
@@ -351,7 +351,7 @@ fn theme_command(app: &mut LightcraftApp, p: &Value) -> Result<Value, String> {
     let Some(id) = p.get("theme").and_then(Value::as_str) else {
         return Err(format!("view.theme: `theme` is required ({ids})"));
     };
-    let Some(kind) = crate::theme::ThemeKind::ALL.into_iter().find(|k| k.id() == id) else {
+    let Some(kind) = crate::theme::ThemeKind::ALL.into_iter().find(|k| k.id() == id || k.label().eq_ignore_ascii_case(id) || matches!((k, id.to_ascii_lowercase().as_str()), (crate::theme::ThemeKind::Charcoal, "night") | (crate::theme::ThemeKind::Silver, "day"))) else {
         return Err(format!("view.theme: unknown theme `{id}` ({ids})"));
     };
     app.ui.settings.select_theme(kind);

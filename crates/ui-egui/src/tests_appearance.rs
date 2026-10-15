@@ -22,19 +22,15 @@ fn frame(app: &mut LightcraftApp, ctx: &egui::Context) {
 }
 
 #[test]
-fn new_users_get_ufrgs_noite_and_old_settings_load_unchanged() {
-    // Suíte FisiLab: UFRGS Noite (dark) is the default, UFRGS Dia the light theme
+fn new_users_keep_the_dark_look_and_old_settings_load_unchanged() {
     let s = AppSettings::default();
-    assert_eq!((s.appearance_mode, s.dark_theme, s.light_theme), (AppearanceMode::Dark, DarkTheme::UfrgsNoite, LightTheme::UfrgsDia));
-    assert_eq!(s.theme(Some(egui::Theme::Light)), ThemeKind::UfrgsNoite, "Auto is opt-in");
+    assert_eq!((s.appearance_mode, s.dark_theme, s.light_theme), (AppearanceMode::Dark, DarkTheme::Charcoal, LightTheme::Silver));
+    assert_eq!(s.theme(Some(egui::Theme::Light)), ThemeKind::Charcoal, "Auto is opt-in");
     // a ui.json saved before appearance modes existed
     let old: UiState = serde_json::from_str(r#"{"settings": {"gridBadges": "always", "startupView": "detail"}}"#).unwrap();
     assert_eq!(old.settings.appearance_mode, AppearanceMode::Dark);
-    assert_eq!(old.settings.dark_theme, DarkTheme::UfrgsNoite);
-    assert_eq!(old.settings.light_theme, LightTheme::UfrgsDia);
-    // a theme chosen before keeps working
-    let chosen: UiState = serde_json::from_str(r#"{"settings": {"darkTheme": "charcoal", "lightTheme": "silver"}}"#).unwrap();
-    assert_eq!((chosen.settings.dark_theme, chosen.settings.light_theme), (DarkTheme::Charcoal, LightTheme::Silver));
+    assert_eq!(old.settings.dark_theme, DarkTheme::Charcoal);
+    assert_eq!(old.settings.light_theme, LightTheme::Silver);
     assert_eq!(old.settings.startup_view, crate::state::StartupView::Detail);
     // and the Charcoal tokens are the ones LightCraft always had
     assert_eq!(crate::theme::Tokens::for_kind(ThemeKind::Charcoal).chrome, crate::theme::Tokens::default().chrome);
@@ -131,16 +127,16 @@ fn auto_follows_the_system_and_falls_back_to_dark() {
     a.run("view.appearance", json!({"mode": "auto"})).unwrap();
     let ctx = egui::Context::default();
     frame(&mut a, &ctx);
-    assert_eq!(crate::theme::current(&ctx), Some(ThemeKind::UfrgsDia));
+    assert_eq!(crate::theme::current(&ctx), Some(ThemeKind::Silver));
     assert_eq!(ctx.theme(), egui::Theme::Light);
     *system.lock().unwrap() = Some(egui::Theme::Dark);
     frame(&mut a, &ctx);
-    assert_eq!(crate::theme::current(&ctx), Some(ThemeKind::UfrgsNoite));
+    assert_eq!(crate::theme::current(&ctx), Some(ThemeKind::Charcoal));
     assert_eq!(ctx.theme(), egui::Theme::Dark);
     // no answer from the host or from egui: dark
     *system.lock().unwrap() = None;
     frame(&mut a, &ctx);
-    assert_eq!(crate::theme::current(&ctx), Some(ThemeKind::UfrgsNoite));
+    assert_eq!(crate::theme::current(&ctx), Some(ThemeKind::Charcoal));
     // without a host service, egui's report is used
     let mut plain = app();
     plain.ui.settings.appearance_mode = AppearanceMode::Auto;
@@ -151,7 +147,7 @@ fn auto_follows_the_system_and_falls_back_to_dark() {
         plain.logic(ui.ctx());
     });
     output.textures_delta.clear();
-    assert_eq!(crate::theme::current(&ctx), Some(ThemeKind::UfrgsDia));
+    assert_eq!(crate::theme::current(&ctx), Some(ThemeKind::Silver));
 }
 
 #[test]
@@ -160,7 +156,7 @@ fn view_menu_lists_modes_and_themes_with_checks() {
     a.run("view.theme", json!({"theme": "paper"})).unwrap();
     let menus = crate::menubar::menu_bar(&a);
     let text = serde_json::to_string(&menus).unwrap();
-    for label in ["Appearance", "Sync with System", "Light Mode", "Dark Mode", "Next Appearance Mode", "UFRGS Noite", "UFRGS Dia", "Charcoal", "Midnight", "Silver", "Paper"] {
+    for label in ["Appearance", "Sync with System", "Light Mode", "Dark Mode", "Next Appearance Mode", "Noite", "Midnight", "Dia", "Paper"] {
         assert!(text.contains(&format!("\"{label}\"")), "{label} missing from the menus");
     }
     assert!(text.contains(r#""params":{"theme":"paper"}"#));
@@ -177,7 +173,7 @@ fn the_top_bar_button_and_settings_cards_drive_the_mode() {
     h.step();
     h.step();
     assert_eq!(h.app.ui.settings.appearance_mode, AppearanceMode::Light);
-    assert_eq!(crate::theme::current(&h.view.ctx), Some(ThemeKind::UfrgsDia));
+    assert_eq!(crate::theme::current(&h.view.ctx), Some(ThemeKind::Silver));
     // Settings ▸ Interface: the mode buttons and the theme radios
     h.app.ui.dialog = Some(crate::state::Dialog::Settings { tab: "interface".into() });
     h.step();
@@ -191,7 +187,7 @@ fn the_top_bar_button_and_settings_cards_drive_the_mode() {
     h.step();
     h.step();
     assert_eq!(h.app.ui.settings.appearance_mode, AppearanceMode::Dark);
-    assert_eq!(crate::theme::current(&h.view.ctx), Some(ThemeKind::UfrgsNoite));
+    assert_eq!(crate::theme::current(&h.view.ctx), Some(ThemeKind::Charcoal));
 }
 
 #[test]
@@ -240,7 +236,7 @@ fn favorites_validate_roundtrip_and_stars_toggle_without_selecting() {
         std::fs::create_dir_all(&path).unwrap();
         std::fs::write(std::path::Path::new(&path).join("lightcraft-favorites.png"), png).unwrap();
     }
-    assert_eq!(h.app.ui.settings.light_theme, LightTheme::UfrgsDia, "starring does not select");
+    assert_eq!(h.app.ui.settings.light_theme, LightTheme::Silver, "starring does not select");
     let saved = serde_json::to_value(&h.app.ui.settings).unwrap();
     assert_eq!(serde_json::from_value::<AppSettings>(saved).unwrap(), h.app.ui.settings);
     assert_eq!(h.request("ui.clickWidget", json!({"id": "button:themeFavorite-paper"}), T)["ok"], true);
@@ -260,5 +256,5 @@ fn favorites_validate_roundtrip_and_stars_toggle_without_selecting() {
     h.step();
     assert_eq!(h.app.ui.settings.appearance_mode, AppearanceMode::Light);
     assert_eq!(h.app.ui.settings.light_theme, LightTheme::Paper);
-    assert_eq!(h.app.ui.settings.dark_theme, DarkTheme::UfrgsNoite);
+    assert_eq!(h.app.ui.settings.dark_theme, DarkTheme::Charcoal);
 }

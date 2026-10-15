@@ -41,17 +41,16 @@ e por quê. Modificações © 2026 FisiLab — LARFIC/UFRGS, sob os mesmos termo
   barra superior virou um botão "Sobre a Suíte FisiLab…". "Revela Help" continua abrindo a documentação do
   projeto original no GitHub.
 
-## Cores: temas "UFRGS Noite" e "UFRGS Dia"
+## Cores: paleta original, com os temas "Noite" e "Dia"
 
-- Dois temas novos, primeiros da lista, em `crates/ui-egui/src/theme.rs`: **UFRGS Noite** (escuro, id `ufrgsNoite`) e
-  **UFRGS Dia** (claro, id `ufrgsDia`), montados a partir de `fisilab_brand::palette::NOITE` e `DIA` (painéis, fundo,
-  campos, bordas, textos, destaque vermelho, foco azul, seleção, avisos e erros). As medidas e o layout são os do tema
-  original; mudam só as cores. Sombras usam o marinho da marca.
-- **UFRGS Noite é o padrão** (`ThemeKind`, `DarkTheme` e `LightTheme` em `crates/ui-egui/src/state.rs`, e
-  `AppSettings::default`). O tema claro padrão é UFRGS Dia. Os temas originais (Charcoal, Midnight, Silver, Paper)
-  continuam disponíveis em Exibir ▸ Aparência e em Configurações ▸ Interface, e uma escolha já salva é respeitada.
+- A paleta é a original do LightCraft; o tema padrão continua sendo o mesmo de antes (Charcoal). Os temas da marca
+  da primeira versão foram removidos.
+- Em `crates/ui-egui/src/theme.rs`, o par original aparece com os nomes **Noite** (escuro, antigo Charcoal, id
+  `charcoal`) e **Dia** (claro, antigo Silver, id `silver`), primeiros de cada família em Exibir ▸ Aparência e em
+  Configurações ▸ Interface. As cores são exatamente as originais; Midnight e Paper seguem disponíveis. O comando
+  `view.theme` também aceita `noite`/`night` e `dia`/`day`.
 - Cores que representam dados do documento (rótulos de cor das fotos, sobreposição de máscara) não mudaram.
-- Testes novos: os temas UFRGS vêm da paleta, são o padrão, e todo tema mantém o contraste do texto.
+- O crate `fisilab-brand` segue usado na tela de abertura e na janela "Sobre a Suíte FisiLab".
 
 ## Idioma
 

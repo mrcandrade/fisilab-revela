@@ -46,8 +46,8 @@ livres para ensino, pesquisa e criação na universidade. Ele é uma versão do
 
 Baixe o instalador `FisiLab-Revela-Setup-<versão>.exe` no portal de downloads da Suíte FisiLab ou na página de
 [Releases do GitHub](https://github.com/mrcandrade/fisilab-revela/releases) e execute-o. Depois, abra o **Revela** pelo
-menu Iniciar. Na primeira execução, a interface já abre em português do Brasil, no tema **UFRGS Noite** (o tema claro
-**UFRGS Dia** e os temas originais ficam em Configurações ▸ Interface).
+menu Iniciar. Na primeira execução, a interface já abre em português do Brasil, com a paleta original do LightCraft (opções **Noite** e **Dia**,
+além de Midnight e Paper, em Configurações ▸ Interface).
 
 ### Compilar a partir do código
 
